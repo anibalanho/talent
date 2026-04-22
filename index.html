@@ -6,26 +6,22 @@
 <title>Tablero de operaciones</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #F7F6F3;
-  --surface: #FFFFFF;
-  --surface2: #F0EEE9;
-  --border: rgba(0,0,0,0.09);
-  --border-strong: rgba(0,0,0,0.16);
-  --text: #1A1917;
-  --text-2: #6B6860;
-  --text-3: #A09E99;
-  --green: #2D6A4F; --green-bg: #E8F5EE; --green-text: #1B4D38;
-  --amber: #92520A; --amber-bg: #FDF0DC; --amber-text: #6B3B07;
-  --red: #A32D2D; --red-bg: #FCEAEA; --red-text: #7A2020;
-  --blue: #1A4F8A; --blue-bg: #E8F0FB; --blue-text: #123A6A;
-  --gray-bg: #EEECE8; --gray-text: #5A5855;
-  --radius: 10px;
-  --radius-sm: 6px;
+:root{
+  --bg:#F7F6F3;--surface:#FFFFFF;--surface2:#F0EEE9;
+  --border:rgba(0,0,0,0.09);--border-strong:rgba(0,0,0,0.16);
+  --text:#1A1917;--text-2:#6B6860;--text-3:#A09E99;
+  --green:#2D6A4F;--green-bg:#E8F5EE;--green-text:#1B4D38;
+  --amber:#92520A;--amber-bg:#FDF0DC;--amber-text:#6B3B07;
+  --red:#A32D2D;--red-bg:#FCEAEA;--red-text:#7A2020;
+  --blue:#1A4F8A;--blue-bg:#E8F0FB;--blue-text:#123A6A;
+  --gray-bg:#EEECE8;--gray-text:#5A5855;
+  --radius:10px;--radius-sm:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
 .layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+/* Sidebar */
 .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
 .logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:20px}
 .logo-name{font-size:13px;font-weight:500;color:var(--text)}
@@ -38,19 +34,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .nav-section{font-size:10px;font-weight:500;letter-spacing:0.08em;color:var(--text-3);padding:16px 20px 6px;text-transform:uppercase}
 .sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
 .clock-display{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)}
+
+/* Main */
 .main{padding:32px 36px;overflow-x:hidden}
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
-.page-title{font-size:22px;font-weight:400;letter-spacing:-0.02em;color:var(--text)}
+.page-title{font-size:22px;font-weight:400;letter-spacing:-0.02em}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
 .metric-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
-.metric-value{font-size:26px;font-weight:300;letter-spacing:-0.03em;color:var(--text)}
+.metric-value{font-size:26px;font-weight:300;letter-spacing:-0.03em}
 .metric-sub{font-size:11px;color:var(--text-3);margin-top:5px}
 .metric-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
+/* Filters */
+.filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px}
+.filter-select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;outline:none}
+.filter-select:focus{border-color:var(--text)}
+.filter-reset{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:none;background:none;color:var(--text-3);cursor:pointer;border-radius:var(--radius-sm)}
+.filter-reset:hover{background:var(--surface2);color:var(--text)}
+.filter-count{font-size:11px;color:var(--text-3);margin-left:4px}
+
+/* Table */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
-.table-title{font-size:13px;font-weight:500;color:var(--text)}
+.table-title{font-size:13px;font-weight:500}
 .add-btn{font-size:12px;color:var(--blue);background:var(--blue-bg);border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
 .add-btn:hover{opacity:0.8}
 table{width:100%;border-collapse:collapse}
@@ -58,6 +69,9 @@ thead th{font-size:11px;font-weight:500;color:var(--text-3);text-transform:upper
 tbody td{padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:#FAFAF8}
+.empty-row td{text-align:center;color:var(--text-3);font-size:13px;padding:32px 20px}
+
+/* Badges */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
 .b-green{background:var(--green-bg);color:var(--green-text)}
 .b-amber{background:var(--amber-bg);color:var(--amber-text)}
@@ -66,25 +80,23 @@ tbody tr:hover td{background:#FAFAF8}
 .b-gray{background:var(--gray-bg);color:var(--gray-text)}
 .b-purple{background:#EEEDFE;color:#3C3489}
 .b-teal{background:#E1F5EE;color:#085041}
+.b-coral{background:#FAECE7;color:#712B13}
+.b-pink{background:#FBEAF0;color:#72243E}
+
+/* Progress */
 .progress-wrap{display:flex;align-items:center;gap:8px;min-width:100px}
 .progress-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;border-radius:2px;transition:width 0.4s}
-.p-ok{background:var(--green)}
-.p-warn{background:#E09A20}
-.p-danger{background:var(--red)}
+.p-ok{background:var(--green)}.p-warn{background:#E09A20}.p-danger{background:var(--red)}
 .progress-pct{font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;min-width:30px}
+.task-count{font-size:10px;color:var(--text-3)}
+
+/* SLA */
 .sla-wrap{display:flex;flex-direction:column;gap:5px;min-width:140px}
 .sla-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
 .sla-fill{height:100%;border-radius:3px;transition:width 0.4s}
-.edit-cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
-input[type=text],input[type=number],select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none}
-input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--text)}
-.save-btn{font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;background:var(--text);color:#FFF;border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;transition:opacity 0.15s}
-.save-btn:hover{opacity:0.8}
-.del-btn{font-size:12px;font-family:'DM Sans',sans-serif;background:none;color:var(--red);border:1px solid var(--red-bg);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer;transition:all 0.15s}
-.del-btn:hover{background:var(--red-bg)}
-.edit-btn{font-size:11px;font-family:'DM Sans',sans-serif;background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 9px;cursor:pointer;color:var(--text-3);transition:all 0.15s}
-.edit-btn:hover{border-color:var(--border-strong);color:var(--text)}
+
+/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
 .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
 .kpi-name{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
@@ -92,7 +104,17 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
 .kpi-val{font-size:28px;font-weight:300;letter-spacing:-0.03em}
 .kpi-meta{font-size:13px;color:var(--text-3)}
 .kpi-footer{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-.task-count{font-size:10px;color:var(--text-3);margin-left:6px}
+
+/* Edit */
+.edit-cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
+input[type=text],input[type=number],select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none}
+input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--text)}
+.save-btn{font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;background:var(--text);color:#FFF;border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer}
+.del-btn{font-size:12px;font-family:'DM Sans',sans-serif;background:none;color:var(--red);border:1px solid var(--red-bg);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer}
+.del-btn:hover{background:var(--red-bg)}
+.edit-btn{font-size:11px;font-family:'DM Sans',sans-serif;background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 9px;cursor:pointer;color:var(--text-3)}
+.edit-btn:hover{border-color:var(--border-strong);color:var(--text)}
+
 @media(max-width:900px){
   .layout{grid-template-columns:1fr}
   .sidebar{display:none}
@@ -107,7 +129,7 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
 <div class="layout">
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-name">Mi organización</div>
+      <div class="logo-name">Área de Talento</div>
       <div class="logo-sub">Panel de operaciones</div>
     </div>
     <span class="nav-section">Vistas</span>
@@ -142,27 +164,54 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
 
     <div class="metrics" id="metrics-grid"></div>
 
+    <!-- PROYECTOS -->
     <div id="tab-proyectos">
+      <div class="filters">
+        <span class="filter-label">Filtrar</span>
+        <select class="filter-select" id="f-vertical" onchange="applyFilters()">
+          <option value="">Todas las verticales</option>
+          <option>Atracción</option>
+          <option>Desarrollo</option>
+          <option>Aprendizaje</option>
+          <option>Talento</option>
+          <option>Cultura</option>
+          <option>Comunicación</option>
+        </select>
+        <select class="filter-select" id="f-estado" onchange="applyFilters()">
+          <option value="">Todos los estados</option>
+          <option>En curso</option>
+          <option>Completado</option>
+          <option>En riesgo</option>
+          <option>Pausado</option>
+        </select>
+        <select class="filter-select" id="f-responsable" onchange="applyFilters()">
+          <option value="">Todos los responsables</option>
+        </select>
+        <select class="filter-select" id="f-vto" onchange="applyFilters()">
+          <option value="">Todos los vencimientos</option>
+          <option value="vencido">Vencido</option>
+          <option value="este-mes">Este mes</option>
+          <option value="proximo-mes">Próximo mes</option>
+        </select>
+        <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
+        <span class="filter-count" id="filter-count"></span>
+      </div>
       <div class="table-wrap">
         <div class="table-header">
-          <span class="table-title">Proyectos activos</span>
+          <span class="table-title">Proyectos</span>
           <button class="add-btn" onclick="addRow('proyectos')">+ Agregar proyecto</button>
         </div>
         <table>
           <thead><tr>
-            <th>Proyecto</th>
-            <th>Vertical</th>
-            <th>Responsable</th>
-            <th>Estado</th>
-            <th>Progreso (tareas)</th>
-            <th>Vencimiento</th>
-            <th></th>
+            <th>Proyecto</th><th>Vertical</th><th>Responsable</th>
+            <th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th></th>
           </tr></thead>
           <tbody id="tbody-proyectos"></tbody>
         </table>
       </div>
     </div>
 
+    <!-- SLA -->
     <div id="tab-sla" style="display:none">
       <div class="table-wrap">
         <div class="table-header">
@@ -174,6 +223,7 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
       </div>
     </div>
 
+    <!-- KPIs -->
     <div id="tab-kpis" style="display:none">
       <div class="kpi-grid" id="kpi-grid"></div>
       <div class="table-wrap">
@@ -186,6 +236,7 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
       </div>
     </div>
 
+    <!-- TAREAS -->
     <div id="tab-tareas" style="display:none">
       <div class="table-wrap">
         <div class="table-header">
@@ -200,121 +251,181 @@ input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--
 </div>
 
 <script>
-const VERTICALES = ["Selección","Desarrollo","Cultura","Compensaciones","Operaciones","Bienestar","Otro"];
+const VERTICALES = ["Atracción","Desarrollo","Aprendizaje","Talento","Cultura","Comunicación"];
 const VERTICAL_COLORS = {
-  "Selección":"b-blue","Desarrollo":"b-purple","Cultura":"b-teal",
-  "Compensaciones":"b-amber","Operaciones":"b-gray","Bienestar":"b-green","Otro":"b-gray"
+  "Atracción":"b-blue","Desarrollo":"b-purple","Aprendizaje":"b-teal",
+  "Talento":"b-coral","Cultura":"b-pink","Comunicación":"b-amber"
 };
-
-const state = {
-  proyectos: [
-    {id:1,nombre:"Rediseño proceso onboarding",vertical:"Cultura",resp:"Carla M.",estado:"En curso",vto:"2025-06-15"},
-    {id:2,nombre:"Implementación nueva plataforma",vertical:"Operaciones",resp:"Nicolás T.",estado:"En curso",vto:"2025-07-30"},
-    {id:3,nombre:"Auditoría interna Q2",vertical:"Desarrollo",resp:"Valentina R.",estado:"Completado",vto:"2025-04-20"},
-    {id:4,nombre:"Plan de capacitación equipo",vertical:"Desarrollo",resp:"Carla M.",estado:"En riesgo",vto:"2025-05-10"}
-  ],
-  sla: [
-    {id:1,proceso:"Atención de consultas internas",objetivo:24,actual:18},
-    {id:2,proceso:"Respuesta a solicitudes de RRHH",objetivo:48,actual:52},
-    {id:3,proceso:"Cierre de tickets operativos",objetivo:72,actual:40},
-    {id:4,proceso:"Aprobación de documentos",objetivo:8,actual:11}
-  ],
-  kpis: [
-    {id:1,indicador:"NPS del área",meta:70,actual:74,periodo:"Q2 2025",estado:"OK"},
-    {id:2,indicador:"Proyectos a tiempo",meta:90,actual:75,periodo:"Abril 2025",estado:"Riesgo"},
-    {id:3,indicador:"Satisfacción del equipo",meta:80,actual:82,periodo:"Q1 2025",estado:"OK"},
-    {id:4,indicador:"Cumplimiento de SLA",meta:95,actual:88,periodo:"Abril 2025",estado:"Riesgo"}
-  ],
-  tareas: [
-    {id:1,tarea:"Revisar propuesta proveedor",asignado:"Nicolás T.",prioridad:"Alta",proyecto:"Implementación nueva plataforma",estado:"Pendiente"},
-    {id:2,tarea:"Enviar informe mensual",asignado:"Carla M.",prioridad:"Alta",proyecto:"Auditoría interna Q2",estado:"Completado"},
-    {id:3,tarea:"Actualizar cronograma",asignado:"Valentina R.",prioridad:"Media",proyecto:"Rediseño proceso onboarding",estado:"Pendiente"},
-    {id:4,tarea:"Coordinar reunión kick-off",asignado:"Nicolás T.",prioridad:"Baja",proyecto:"Plan de capacitación equipo",estado:"Completado"},
-    {id:5,tarea:"Documentar proceso nuevo",asignado:"Carla M.",prioridad:"Media",proyecto:"Implementación nueva plataforma",estado:"Pendiente"},
-    {id:6,tarea:"Diseñar materiales onboarding",asignado:"Valentina R.",prioridad:"Alta",proyecto:"Rediseño proceso onboarding",estado:"En curso"},
-    {id:7,tarea:"Definir KPIs de capacitación",asignado:"Carla M.",prioridad:"Media",proyecto:"Plan de capacitación equipo",estado:"Pendiente"}
-  ]
+const estadoC = {
+  "En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray",
+  "Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"
 };
-
-const estadoC = {"En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray","Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"};
 const prioC = {"Alta":"b-red","Media":"b-amber","Baja":"b-gray"};
 
-function badge(t, map){ return `<span class="badge ${(map&&map[t])||'b-gray'}">${t}</span>` }
+const state = {
+  proyectos: [],
+  sla: [],
+  kpis: [],
+  tareas: []
+};
+
+let nextId = 1;
+
+function badge(t, map){ return `<span class="badge ${(map&&map[t])||'b-gray'}">${t||'—'}</span>` }
 
 function progressBar(pct){
-  const c = pct >= 80 ? "p-ok" : pct >= 50 ? "p-warn" : "p-danger";
+  const c = pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
   return `<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
 }
 
 function calcProgreso(nombreProyecto){
   const tareas = state.tareas.filter(t => t.proyecto === nombreProyecto);
-  if(tareas.length === 0) return null;
+  if(!tareas.length) return null;
   const completadas = tareas.filter(t => t.estado === "Completado").length;
-  return { pct: Math.round((completadas / tareas.length) * 100), total: tareas.length, completadas };
+  return { pct: Math.round((completadas/tareas.length)*100), total: tareas.length, completadas };
 }
 
 function slaBar(obj, act){
-  const ratio = act / obj;
-  const pct = Math.min(100, Math.round(ratio * 100));
-  const color = ratio > 1 ? "#A32D2D" : ratio > 0.85 ? "#E09A20" : "#2D6A4F";
-  const lbl = ratio <= 1
+  const ratio = act/obj;
+  const pct = Math.min(100, Math.round(ratio*100));
+  const color = ratio>1?"#A32D2D":ratio>0.85?"#E09A20":"#2D6A4F";
+  const lbl = ratio<=1
     ? `<span class="badge b-green">Cumplido (${act}/${obj} hs)</span>`
     : `<span class="badge b-red">Excedido (${act}/${obj} hs)</span>`;
   return `<div class="sla-wrap">${lbl}<div class="sla-track"><div class="sla-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
 }
 
-function formatDate(d){ if(!d) return "—"; const[y,m,day]=d.split("-"); return `${day}/${m}/${y}` }
+function formatDate(d){
+  if(!d) return "—";
+  const [y,m,day] = d.split("-");
+  return `${day}/${m}/${y}`;
+}
 
-function renderProyectos(){
-  document.getElementById("tbody-proyectos").innerHTML = state.proyectos.map(p => {
+function getVtoCategory(d){
+  if(!d) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const vto = new Date(d); vto.setHours(0,0,0,0);
+  const thisMonth = today.getMonth();
+  const thisYear = today.getFullYear();
+  if(vto < today) return "vencido";
+  if(vto.getMonth()===thisMonth && vto.getFullYear()===thisYear) return "este-mes";
+  const nextM = new Date(thisYear, thisMonth+1, 1);
+  const nextMEnd = new Date(thisYear, thisMonth+2, 0);
+  if(vto >= nextM && vto <= nextMEnd) return "proximo-mes";
+  return "otro";
+}
+
+function vtoLabel(d){
+  if(!d) return "—";
+  const cat = getVtoCategory(d);
+  const dateStr = formatDate(d);
+  if(cat==="vencido") return `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:12px">${dateStr} <span class="badge b-red" style="font-size:10px">Vencido</span></span>`;
+  if(cat==="este-mes") return `<span style="color:var(--amber);font-family:'DM Mono',monospace;font-size:12px">${dateStr} <span class="badge b-amber" style="font-size:10px">Este mes</span></span>`;
+  return `<span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)">${dateStr}</span>`;
+}
+
+// Filters
+function getFilters(){
+  return {
+    vertical: document.getElementById("f-vertical").value,
+    estado: document.getElementById("f-estado").value,
+    responsable: document.getElementById("f-responsable").value,
+    vto: document.getElementById("f-vto").value
+  };
+}
+
+function applyFilters(){
+  const f = getFilters();
+  let filtered = state.proyectos.filter(p => {
+    if(f.vertical && p.vertical !== f.vertical) return false;
+    if(f.estado && p.estado !== f.estado) return false;
+    if(f.responsable && p.resp !== f.responsable) return false;
+    if(f.vto && getVtoCategory(p.vto) !== f.vto) return false;
+    return true;
+  });
+  renderProyectosData(filtered);
+  const total = state.proyectos.length;
+  const showing = filtered.length;
+  const fc = document.getElementById("filter-count");
+  fc.textContent = (showing < total) ? `Mostrando ${showing} de ${total}` : "";
+}
+
+function resetFilters(){
+  document.getElementById("f-vertical").value = "";
+  document.getElementById("f-estado").value = "";
+  document.getElementById("f-responsable").value = "";
+  document.getElementById("f-vto").value = "";
+  applyFilters();
+}
+
+function updateResponsableFilter(){
+  const sel = document.getElementById("f-responsable");
+  const current = sel.value;
+  const responsables = [...new Set(state.proyectos.map(p=>p.resp).filter(Boolean))].sort();
+  sel.innerHTML = `<option value="">Todos los responsables</option>` +
+    responsables.map(r=>`<option ${r===current?"selected":""}>${r}</option>`).join("");
+}
+
+function renderProyectosData(list){
+  const tb = document.getElementById("tbody-proyectos");
+  if(!list.length){
+    tb.innerHTML = `<tr class="empty-row"><td colspan="7">No hay proyectos que coincidan con los filtros</td></tr>`;
+    return;
+  }
+  tb.innerHTML = list.map(p => {
     const prog = calcProgreso(p.nombre);
-    let progCell = "";
-    if(prog !== null){
-      progCell = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        ${progressBar(prog.pct)}
-        <span class="task-count">${prog.completadas}/${prog.total} tareas</span>
-      </div>`;
-    } else {
-      progCell = `<span style="font-size:11px;color:var(--text-3)">Sin tareas asignadas</span>`;
-    }
-    const vColor = VERTICAL_COLORS[p.vertical] || "b-gray";
+    let progCell = prog !== null
+      ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total} tareas</span></div>`
+      : `<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
     return `<tr>
       <td style="font-weight:400">${p.nombre}</td>
-      <td><span class="badge ${vColor}">${p.vertical||'—'}</span></td>
-      <td style="color:var(--text-2)">${p.resp}</td>
+      <td>${badge(p.vertical, VERTICAL_COLORS)}</td>
+      <td style="color:var(--text-2)">${p.resp||'—'}</td>
       <td>${badge(p.estado, estadoC)}</td>
       <td>${progCell}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)">${formatDate(p.vto)}</td>
+      <td>${vtoLabel(p.vto)}</td>
       <td><button class="edit-btn" onclick="editRow('proyectos',${p.id})">editar</button></td>
     </tr>`;
   }).join("");
 }
 
+function renderProyectos(){
+  updateResponsableFilter();
+  applyFilters();
+}
+
 function renderSLA(){
-  document.getElementById("tbody-sla").innerHTML = state.sla.map(s => `
+  const tb = document.getElementById("tbody-sla");
+  if(!state.sla.length){
+    tb.innerHTML=`<tr class="empty-row"><td colspan="5">No hay procesos cargados aún</td></tr>`;return;
+  }
+  tb.innerHTML = state.sla.map(s=>`
     <tr><td>${s.proceso}</td>
     <td style="font-family:'DM Mono',monospace;text-align:center">${s.objetivo}</td>
     <td style="font-family:'DM Mono',monospace;text-align:center">${s.actual}</td>
-    <td>${slaBar(s.objetivo, s.actual)}</td>
+    <td>${slaBar(s.objetivo,s.actual)}</td>
     <td><button class="edit-btn" onclick="editRow('sla',${s.id})">editar</button></td></tr>`).join("");
 }
 
 function renderKPIs(){
-  document.getElementById("tbody-kpis").innerHTML = state.kpis.map(k => `
+  const grid = document.getElementById("kpi-grid");
+  const tb = document.getElementById("tbody-kpis");
+  if(!state.kpis.length){
+    grid.innerHTML="";
+    tb.innerHTML=`<tr class="empty-row"><td colspan="6">No hay KPIs cargados aún</td></tr>`;return;
+  }
+  tb.innerHTML = state.kpis.map(k=>`
     <tr><td>${k.indicador}</td>
     <td style="font-family:'DM Mono',monospace">${k.meta}</td>
     <td style="font-family:'DM Mono',monospace;font-weight:500">${k.actual}</td>
     <td style="color:var(--text-3);font-size:12px">${k.periodo}</td>
-    <td>${badge(k.estado, estadoC)}</td>
+    <td>${badge(k.estado,estadoC)}</td>
     <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td></tr>`).join("");
-
-  document.getElementById("kpi-grid").innerHTML = state.kpis.map(k => {
-    const pct = Math.min(Math.round((k.actual / k.meta) * 100), 100);
-    const diff = k.actual - k.meta;
-    const diffStr = diff >= 0
-      ? `<span style="color:var(--green)">+${diff} vs meta</span>`
-      : `<span style="color:var(--red)">${diff} vs meta</span>`;
-    const c = pct >= 100 ? "p-ok" : pct >= 85 ? "p-warn" : "p-danger";
+  grid.innerHTML = state.kpis.map(k=>{
+    const pct = Math.min(Math.round((k.actual/k.meta)*100),100);
+    const diff = k.actual-k.meta;
+    const diffStr = diff>=0?`<span style="color:var(--green)">+${diff} vs meta</span>`:`<span style="color:var(--red)">${diff} vs meta</span>`;
+    const c = pct>=100?"p-ok":pct>=85?"p-warn":"p-danger";
     return `<div class="kpi-card">
       <div class="kpi-name">${k.indicador}</div>
       <div class="kpi-val-row"><span class="kpi-val">${k.actual}</span><span class="kpi-meta">/ ${k.meta}</span></div>
@@ -325,80 +436,84 @@ function renderKPIs(){
 }
 
 function renderTareas(){
-  document.getElementById("tbody-tareas").innerHTML = state.tareas.map(t => `
-    <tr><td>${t.tarea}</td><td style="color:var(--text-2)">${t.asignado}</td>
-    <td>${badge(t.prioridad, prioC)}</td>
+  const tb = document.getElementById("tbody-tareas");
+  if(!state.tareas.length){
+    tb.innerHTML=`<tr class="empty-row"><td colspan="6">No hay tareas cargadas aún</td></tr>`;return;
+  }
+  tb.innerHTML = state.tareas.map(t=>`
+    <tr><td>${t.tarea}</td><td style="color:var(--text-2)">${t.asignado||'—'}</td>
+    <td>${badge(t.prioridad,prioC)}</td>
     <td style="color:var(--text-3);font-size:12px">${t.proyecto||'—'}</td>
-    <td>${badge(t.estado, estadoC)}</td>
+    <td>${badge(t.estado,estadoC)}</td>
     <td><button class="edit-btn" onclick="editRow('tareas',${t.id})">editar</button></td></tr>`).join("");
 }
 
 function renderMetrics(){
   const total = state.proyectos.length;
-  const activos = state.proyectos.filter(p => p.estado === "En curso").length;
-  const riesgo = state.proyectos.filter(p => p.estado === "En riesgo").length;
-  const slaOk = state.sla.filter(s => s.actual <= s.objetivo).length;
-  const slaPct = Math.round((slaOk / state.sla.length) * 100);
-  const tareasPend = state.tareas.filter(t => t.estado === "Pendiente").length;
-  const kpiOk = state.kpis.filter(k => k.estado === "OK").length;
-  document.getElementById("metrics-grid").innerHTML = `
+  const activos = state.proyectos.filter(p=>p.estado==="En curso").length;
+  const riesgo = state.proyectos.filter(p=>p.estado==="En riesgo").length;
+  const slaTotal = state.sla.length;
+  const slaOk = state.sla.filter(s=>s.actual<=s.objetivo).length;
+  const slaPct = slaTotal ? Math.round((slaOk/slaTotal)*100) : 0;
+  const tareasPend = state.tareas.filter(t=>t.estado==="Pendiente").length;
+  const kpiOk = state.kpis.filter(k=>k.estado==="OK").length;
+  const kpiTotal = state.kpis.length;
+  document.getElementById("metrics-grid").innerHTML=`
     <div class="metric"><div class="metric-label">Proyectos activos</div><div class="metric-value">${activos}</div><div class="metric-sub"><span class="metric-dot" style="background:var(--red)"></span>${riesgo} en riesgo · ${total} total</div></div>
-    <div class="metric"><div class="metric-label">Cumplimiento SLA</div><div class="metric-value">${slaPct}%</div><div class="metric-sub">${slaOk} de ${state.sla.length} procesos OK</div></div>
-    <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${state.kpis.length}</span></div><div class="metric-sub">Indicadores del período</div></div>
+    <div class="metric"><div class="metric-label">Cumplimiento SLA</div><div class="metric-value">${slaPct}%</div><div class="metric-sub">${slaOk} de ${slaTotal} procesos OK</div></div>
+    <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${kpiTotal}</span></div><div class="metric-sub">Indicadores del período</div></div>
     <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-value">${tareasPend}</div><div class="metric-sub">De ${state.tareas.length} tareas totales</div></div>`;
 }
 
 function renderAll(){ renderMetrics(); renderProyectos(); renderSLA(); renderKPIs(); renderTareas(); }
 
 function showTab(name){
-  ["proyectos","sla","kpis","tareas"].forEach(t => {
-    document.getElementById("tab-"+t).style.display = t === name ? "block" : "none";
+  ["proyectos","sla","kpis","tareas"].forEach(t=>{
+    document.getElementById("tab-"+t).style.display = t===name?"block":"none";
   });
 }
 function setActive(el){
-  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
   el.classList.add("active");
 }
 
 function proyectosOptions(selected){
-  return `<option value="">-- Sin proyecto --</option>` +
-    state.proyectos.map(p => `<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
+  return `<option value="">-- Sin proyecto --</option>`+
+    state.proyectos.map(p=>`<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
 }
 
 function editRow(type, id){
-  const item = state[type].find(x => x.id === id);
+  const item = state[type].find(x=>x.id===id);
   if(!item) return;
-  let form = "";
-  let cols = 5;
-
-  if(type === "proyectos"){
-    cols = 6;
-    const vertOpts = VERTICALES.map(v => `<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
-    form = `<input type="text" id="ef-nombre" value="${item.nombre}" style="min-width:150px">
-    <select id="ef-vertical">${vertOpts}</select>
+  let form="", cols=5;
+  if(type==="proyectos"){
+    cols=6;
+    const vertOpts = VERTICALES.map(v=>`<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
+    form=`<input type="text" id="ef-nombre" value="${item.nombre||''}" style="min-width:150px" placeholder="Nombre">
+    <select id="ef-vertical"><option value="">— Vertical —</option>${vertOpts}</select>
     <select id="ef-estado">
       <option ${item.estado==="En curso"?"selected":""}>En curso</option>
       <option ${item.estado==="Completado"?"selected":""}>Completado</option>
       <option ${item.estado==="En riesgo"?"selected":""}>En riesgo</option>
       <option ${item.estado==="Pausado"?"selected":""}>Pausado</option>
     </select>
-    <input type="text" id="ef-resp" value="${item.resp}" style="width:100px" placeholder="Responsable">
-    <input type="text" id="ef-vto" value="${item.vto}" style="width:110px" placeholder="YYYY-MM-DD">`;
-  } else if(type === "sla"){
-    cols = 3;
-    form = `<span style="font-size:12px;color:var(--text-2)">${item.proceso}</span>
-    <input type="number" id="ef-objetivo" value="${item.objetivo}" style="width:70px"> hs objetivo
-    <input type="number" id="ef-actual" value="${item.actual}" style="width:70px"> hs actual`;
-  } else if(type === "kpis"){
-    cols = 4;
-    form = `<input type="text" id="ef-indicador" value="${item.indicador}" style="width:160px">
-    <input type="number" id="ef-meta" value="${item.meta}" style="width:70px"> meta
-    <input type="number" id="ef-actual" value="${item.actual}" style="width:70px"> actual
-    <input type="text" id="ef-periodo" value="${item.periodo}" style="width:100px" placeholder="Período">`;
-  } else if(type === "tareas"){
-    cols = 4;
-    form = `<input type="text" id="ef-tarea" value="${item.tarea}" style="min-width:150px">
-    <input type="text" id="ef-asignado" value="${item.asignado}" style="width:100px" placeholder="Asignado a">
+    <input type="text" id="ef-resp" value="${item.resp||''}" style="width:110px" placeholder="Responsable">
+    <input type="text" id="ef-vto" value="${item.vto||''}" style="width:115px" placeholder="YYYY-MM-DD">`;
+  } else if(type==="sla"){
+    cols=3;
+    form=`<input type="text" id="ef-proceso" value="${item.proceso||''}" style="min-width:150px" placeholder="Proceso">
+    <input type="number" id="ef-objetivo" value="${item.objetivo||''}" style="width:70px"> hs objetivo
+    <input type="number" id="ef-actual" value="${item.actual||''}" style="width:70px"> hs actual`;
+  } else if(type==="kpis"){
+    cols=4;
+    form=`<input type="text" id="ef-indicador" value="${item.indicador||''}" style="width:160px" placeholder="Indicador">
+    <input type="number" id="ef-meta" value="${item.meta||''}" style="width:70px"> meta
+    <input type="number" id="ef-actual" value="${item.actual||''}" style="width:70px"> actual
+    <input type="text" id="ef-periodo" value="${item.periodo||''}" style="width:100px" placeholder="Período">`;
+  } else if(type==="tareas"){
+    cols=4;
+    form=`<input type="text" id="ef-tarea" value="${item.tarea||''}" style="min-width:150px" placeholder="Tarea">
+    <input type="text" id="ef-asignado" value="${item.asignado||''}" style="width:110px" placeholder="Asignado a">
     <select id="ef-proyecto">${proyectosOptions(item.proyecto)}</select>
     <select id="ef-estado">
       <option ${item.estado==="Pendiente"?"selected":""}>Pendiente</option>
@@ -411,40 +526,39 @@ function editRow(type, id){
       <option ${item.prioridad==="Baja"?"selected":""}>Baja</option>
     </select>`;
   }
-
   const tbody = document.getElementById("tbody-"+type);
-  const idx = state[type].findIndex(x => x.id === id);
-  tbody.querySelectorAll("tr")[idx].innerHTML = `<td colspan="${cols}"><div class="edit-cell">${form}
+  const idx = state[type].findIndex(x=>x.id===id);
+  const rows = tbody.querySelectorAll("tr");
+  if(rows[idx]) rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
     <button class="save-btn" onclick="saveRow('${type}',${id})">Guardar</button>
     <button class="del-btn" onclick="deleteRow('${type}',${id})">Eliminar</button>
   </div></td><td></td>`;
 }
 
 function saveRow(type, id){
-  const item = state[type].find(x => x.id === id);
+  const item = state[type].find(x=>x.id===id);
   if(!item) return;
-  if(type === "proyectos"){
+  if(type==="proyectos"){
     const oldNombre = item.nombre;
-    item.nombre = document.getElementById("ef-nombre").value || item.nombre;
+    item.nombre = document.getElementById("ef-nombre").value||item.nombre;
     item.vertical = document.getElementById("ef-vertical").value;
-    item.resp = document.getElementById("ef-resp").value || item.resp;
+    item.resp = document.getElementById("ef-resp").value;
     item.estado = document.getElementById("ef-estado").value;
-    item.vto = document.getElementById("ef-vto").value || item.vto;
-    if(oldNombre !== item.nombre){
-      state.tareas.forEach(t => { if(t.proyecto === oldNombre) t.proyecto = item.nombre; });
-    }
-  } else if(type === "sla"){
-    item.objetivo = parseFloat(document.getElementById("ef-objetivo").value) || item.objetivo;
-    item.actual = parseFloat(document.getElementById("ef-actual").value) || item.actual;
-  } else if(type === "kpis"){
-    item.indicador = document.getElementById("ef-indicador").value || item.indicador;
-    item.meta = parseFloat(document.getElementById("ef-meta").value) || item.meta;
-    item.actual = parseFloat(document.getElementById("ef-actual").value) || item.actual;
-    item.periodo = document.getElementById("ef-periodo").value || item.periodo;
-    item.estado = item.actual >= item.meta ? "OK" : item.actual >= item.meta * 0.85 ? "Riesgo" : "Crítico";
-  } else if(type === "tareas"){
-    item.tarea = document.getElementById("ef-tarea").value || item.tarea;
-    item.asignado = document.getElementById("ef-asignado").value || item.asignado;
+    item.vto = document.getElementById("ef-vto").value;
+    if(oldNombre!==item.nombre) state.tareas.forEach(t=>{if(t.proyecto===oldNombre)t.proyecto=item.nombre;});
+  } else if(type==="sla"){
+    item.proceso = document.getElementById("ef-proceso").value||item.proceso;
+    item.objetivo = parseFloat(document.getElementById("ef-objetivo").value)||item.objetivo;
+    item.actual = parseFloat(document.getElementById("ef-actual").value)||0;
+  } else if(type==="kpis"){
+    item.indicador = document.getElementById("ef-indicador").value||item.indicador;
+    item.meta = parseFloat(document.getElementById("ef-meta").value)||item.meta;
+    item.actual = parseFloat(document.getElementById("ef-actual").value)||0;
+    item.periodo = document.getElementById("ef-periodo").value||item.periodo;
+    item.estado = item.actual>=item.meta?"OK":item.actual>=item.meta*0.85?"Riesgo":"Crítico";
+  } else if(type==="tareas"){
+    item.tarea = document.getElementById("ef-tarea").value||item.tarea;
+    item.asignado = document.getElementById("ef-asignado").value;
     item.proyecto = document.getElementById("ef-proyecto").value;
     item.estado = document.getElementById("ef-estado").value;
     item.prioridad = document.getElementById("ef-prio").value;
@@ -453,19 +567,18 @@ function saveRow(type, id){
 }
 
 function deleteRow(type, id){
-  state[type] = state[type].filter(x => x.id !== id);
+  state[type] = state[type].filter(x=>x.id!==id);
   renderAll();
 }
 
-let nextId = 200;
 function addRow(type){
-  nextId++;
-  if(type === "proyectos") state.proyectos.push({id:nextId,nombre:"Nuevo proyecto",vertical:"Otro",resp:"—",estado:"En curso",vto:""});
-  else if(type === "sla") state.sla.push({id:nextId,proceso:"Nuevo proceso",objetivo:24,actual:0});
-  else if(type === "kpis") state.kpis.push({id:nextId,indicador:"Nuevo KPI",meta:100,actual:0,periodo:"—",estado:"Riesgo"});
-  else if(type === "tareas") state.tareas.push({id:nextId,tarea:"Nueva tarea",asignado:"—",prioridad:"Media",proyecto:"",estado:"Pendiente"});
+  const id = nextId++;
+  if(type==="proyectos") state.proyectos.push({id,nombre:"",vertical:"",resp:"",estado:"En curso",vto:""});
+  else if(type==="sla") state.sla.push({id,proceso:"",objetivo:24,actual:0});
+  else if(type==="kpis") state.kpis.push({id,indicador:"",meta:100,actual:0,periodo:"",estado:"Riesgo"});
+  else if(type==="tareas") state.tareas.push({id,tarea:"",asignado:"",prioridad:"Media",proyecto:"",estado:"Pendiente"});
   renderAll();
-  setTimeout(() => editRow(type, nextId), 50);
+  setTimeout(()=>editRow(type,id),50);
 }
 
 function updateClock(){
@@ -474,7 +587,7 @@ function updateClock(){
 
 renderAll();
 updateClock();
-setInterval(updateClock, 30000);
+setInterval(updateClock,30000);
 </script>
 </body>
 </html>
