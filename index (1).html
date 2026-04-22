@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero de operaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F3;--surface:#FFFFFF;--surface2:#F0EEE9;
+  --border:rgba(0,0,0,0.09);--border-strong:rgba(0,0,0,0.16);
+  --text:#1A1917;--text-2:#6B6860;--text-3:#A09E99;
+  --green:#2D6A4F;--green-bg:#E8F5EE;--green-text:#1B4D38;
+  --amber:#92520A;--amber-bg:#FDF0DC;--amber-text:#6B3B07;
+  --red:#A32D2D;--red-bg:#FCEAEA;--red-text:#7A2020;
+  --blue:#1A4F8A;--blue-bg:#E8F0FB;--blue-text:#123A6A;
+  --gray-bg:#EEECE8;--gray-text:#5A5855;
+  --radius:10px;--radius-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.logo-name{font-size:13px;font-weight:500;color:var(--text)}
+.logo-sub{font-size:11px;color:var(--text-3);margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;font-size:13px;color:var(--text-2);transition:all 0.15s;border-left:2px solid transparent}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--surface2);color:var(--text);font-weight:500;border-left:2px solid var(--text)}
+.nav-icon{width:16px;height:16px;opacity:0.6}
+.nav-item.active .nav-icon{opacity:1}
+.nav-section{font-size:10px;font-weight:500;letter-spacing:0.08em;color:var(--text-3);padding:16px 20px 6px;text-transform:uppercase}
+.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
+.clock-display{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)}
+
+.main{padding:32px 36px;overflow-x:hidden}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
+.page-title{font-size:22px;font-weight:400;letter-spacing:-0.02em}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.metric-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.metric-value{font-size:26px;font-weight:300;letter-spacing:-0.03em}
+.metric-sub{font-size:11px;color:var(--text-3);margin-top:5px}
+.metric-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
+.filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px}
+.filter-select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;outline:none}
+.filter-select:focus{border-color:var(--text)}
+.filter-reset{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:none;background:none;color:var(--text-3);cursor:pointer;border-radius:var(--radius-sm)}
+.filter-reset:hover{background:var(--surface2);color:var(--text)}
+.filter-count{font-size:11px;color:var(--text-3);margin-left:4px}
+
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.table-title{font-size:13px;font-weight:500}
+.add-btn{font-size:12px;color:var(--blue);background:var(--blue-bg);border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
+.add-btn:hover{opacity:0.8}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:11px;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;padding:10px 20px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2)}
+tbody td{padding:11px 20px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#FAFAF8}
+.empty-row td{text-align:center;color:var(--text-3);font-size:13px;padding:32px 20px}
+
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.b-green{background:var(--green-bg);color:var(--green-text)}
+.b-amber{background:var(--amber-bg);color:var(--amber-text)}
+.b-red{background:var(--red-bg);color:var(--red-text)}
+.b-blue{background:var(--blue-bg);color:var(--blue-text)}
+.b-gray{background:var(--gray-bg);color:var(--gray-text)}
+.b-purple{background:#EEEDFE;color:#3C3489}
+.b-teal{background:#E1F5EE;color:#085041}
+.b-coral{background:#FAECE7;color:#712B13}
+.b-pink{background:#FBEAF0;color:#72243E}
+
+.progress-wrap{display:flex;align-items:center;gap:8px;min-width:100px}
+.progress-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;transition:width 0.4s}
+.p-ok{background:var(--green)}.p-warn{background:#E09A20}.p-danger{background:var(--red)}
+.progress-pct{font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;min-width:30px}
+.task-count{font-size:10px;color:var(--text-3)}
+
+/* Notes tooltip */
+.note-btn{background:none;border:none;cursor:pointer;padding:3px;border-radius:4px;color:var(--text-3);position:relative;display:inline-flex;align-items:center}
+.note-btn:hover{color:var(--text);background:var(--surface2)}
+.note-btn svg{width:15px;height:15px}
+.note-btn.has-note{color:var(--amber)}
+.tooltip{position:fixed;background:var(--text);color:#fff;font-size:12px;padding:8px 12px;border-radius:var(--radius-sm);max-width:260px;line-height:1.5;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:pre-wrap;word-break:break-word}
+.tooltip.visible{opacity:1}
+
+/* KPI section */
+.kpi-project-block{margin-bottom:20px}
+.kpi-project-title{font-size:13px;font-weight:500;color:var(--text);padding:12px 20px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.kpi-project-title .badge{font-size:10px}
+.kpi-no-project{font-style:italic;color:var(--text-3);font-size:12px}
+.kpi-empty{padding:24px 20px;text-align:center;color:var(--text-3);font-size:13px}
+
+.edit-cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
+input[type=text],input[type=number],select,textarea{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none}
+textarea{resize:vertical;min-height:56px;width:200px}
+input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{border-color:var(--text)}
+.save-btn{font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;background:var(--text);color:#FFF;border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer}
+.del-btn{font-size:12px;font-family:'DM Sans',sans-serif;background:none;color:var(--red);border:1px solid var(--red-bg);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer}
+.del-btn:hover{background:var(--red-bg)}
+.edit-btn{font-size:11px;font-family:'DM Sans',sans-serif;background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 9px;cursor:pointer;color:var(--text-3)}
+.edit-btn:hover{border-color:var(--border-strong);color:var(--text)}
+
+.save-notice{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;font-size:12px;padding:8px 16px;border-radius:var(--radius-sm);opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none}
+.save-notice.show{opacity:1}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:20px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-name">Área de Talento</div>
+      <div class="logo-sub">Panel de operaciones</div>
+    </div>
+    <span class="nav-section">Vistas</span>
+    <div class="nav-item active" onclick="showTab('proyectos');setActive(this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+      Proyectos
+    </div>
+    <div class="nav-item" onclick="showTab('kpis');setActive(this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2,12 6,7 9,10 14,4"/></svg>
+      KPIs
+    </div>
+    <div class="nav-item" onclick="showTab('tareas');setActive(this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="5" x2="12" y2="5"/><line x1="4" y1="8" x2="12" y2="8"/><line x1="4" y1="11" x2="8" y2="11"/></svg>
+      Tareas
+    </div>
+    <div class="sidebar-footer">
+      <div class="clock-display" id="clock">--/--/---- --:--</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Tablero de operaciones</div>
+        <div class="page-sub">Monitoreo de iniciativas y procesos del área</div>
+      </div>
+    </div>
+
+    <div class="metrics" id="metrics-grid"></div>
+
+    <!-- PROYECTOS -->
+    <div id="tab-proyectos">
+      <div class="filters">
+        <span class="filter-label">Filtrar</span>
+        <select class="filter-select" id="f-vertical" onchange="applyFiltersP()">
+          <option value="">Todas las verticales</option>
+          <option>Atracción</option><option>Desarrollo</option><option>Aprendizaje</option>
+          <option>Talento</option><option>Cultura</option><option>Comunicación</option>
+        </select>
+        <select class="filter-select" id="f-estado" onchange="applyFiltersP()">
+          <option value="">Todos los estados</option>
+          <option>En curso</option><option>Completado</option><option>En riesgo</option><option>Pausado</option>
+        </select>
+        <select class="filter-select" id="f-responsable" onchange="applyFiltersP()">
+          <option value="">Todos los responsables</option>
+        </select>
+        <select class="filter-select" id="f-vto" onchange="applyFiltersP()">
+          <option value="">Todos los vencimientos</option>
+          <option value="vencido">Vencido</option>
+          <option value="este-mes">Este mes</option>
+          <option value="proximo-mes">Próximo mes</option>
+        </select>
+        <button class="filter-reset" onclick="resetFiltersP()">Limpiar</button>
+        <span class="filter-count" id="filter-count-p"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-title">Proyectos</span>
+          <button class="add-btn" onclick="addRow('proyectos')">+ Agregar proyecto</button>
+        </div>
+        <table>
+          <thead><tr>
+            <th>Proyecto</th><th>Vertical</th><th>Responsable</th>
+            <th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th>Notas</th><th></th>
+          </tr></thead>
+          <tbody id="tbody-proyectos"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div id="tab-kpis" style="display:none">
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-title">KPIs por proyecto</span>
+          <button class="add-btn" onclick="addRow('kpis')">+ Agregar KPI</button>
+        </div>
+        <div id="kpi-body"></div>
+      </div>
+    </div>
+
+    <!-- TAREAS -->
+    <div id="tab-tareas" style="display:none">
+      <div class="filters">
+        <span class="filter-label">Filtrar</span>
+        <select class="filter-select" id="ft-proyecto" onchange="applyFiltersT()">
+          <option value="">Todos los proyectos</option>
+        </select>
+        <select class="filter-select" id="ft-responsable" onchange="applyFiltersT()">
+          <option value="">Todos los responsables</option>
+        </select>
+        <select class="filter-select" id="ft-estado" onchange="applyFiltersT()">
+          <option value="">Todos los estados</option>
+          <option>Pendiente</option><option>En curso</option><option>Completado</option>
+        </select>
+        <select class="filter-select" id="ft-prioridad" onchange="applyFiltersT()">
+          <option value="">Todas las prioridades</option>
+          <option>Alta</option><option>Media</option><option>Baja</option>
+        </select>
+        <button class="filter-reset" onclick="resetFiltersT()">Limpiar</button>
+        <span class="filter-count" id="filter-count-t"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-title">Tareas del equipo</span>
+          <button class="add-btn" onclick="addRow('tareas')">+ Agregar tarea</button>
+        </div>
+        <table>
+          <thead><tr><th>Tarea</th><th>Asignado a</th><th>Prioridad</th><th>Proyecto</th><th>Estado</th><th></th></tr></thead>
+          <tbody id="tbody-tareas"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip"></div>
+<!-- Save notice -->
+<div class="save-notice" id="save-notice">Guardado</div>
+
+<script>
+const VERTICALES = ["Atracción","Desarrollo","Aprendizaje","Talento","Cultura","Comunicación"];
+const VERTICAL_COLORS = {
+  "Atracción":"b-blue","Desarrollo":"b-purple","Aprendizaje":"b-teal",
+  "Talento":"b-coral","Cultura":"b-pink","Comunicación":"b-amber"
+};
+const estadoC = {
+  "En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray",
+  "Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"
+};
+const prioC = {"Alta":"b-red","Media":"b-amber","Baja":"b-gray"};
+
+// ── localStorage ──────────────────────────────────────
+const STORAGE_KEY = "talento_dashboard_v2";
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      state.proyectos = parsed.proyectos || [];
+      state.kpis = parsed.kpis || [];
+      state.tareas = parsed.tareas || [];
+      nextId = parsed.nextId || 1;
+    }
+  } catch(e){ console.warn("Error cargando datos:", e); }
+}
+
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      proyectos: state.proyectos,
+      kpis: state.kpis,
+      tareas: state.tareas,
+      nextId
+    }));
+    const n = document.getElementById("save-notice");
+    n.classList.add("show");
+    setTimeout(()=>n.classList.remove("show"), 1500);
+  } catch(e){ console.warn("Error guardando:", e); }
+}
+
+// ── State ──────────────────────────────────────────────
+let nextId = 1;
+const state = { proyectos:[], kpis:[], tareas:[] };
+
+// ── Helpers ────────────────────────────────────────────
+function badge(t, map){ return `<span class="badge ${(map&&map[t])||'b-gray'}">${t||'—'}</span>` }
+
+function progressBar(pct){
+  const c = pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
+  return `<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
+}
+
+function calcProgreso(nombreProyecto){
+  const tareas = state.tareas.filter(t=>t.proyecto===nombreProyecto);
+  if(!tareas.length) return null;
+  const completadas = tareas.filter(t=>t.estado==="Completado").length;
+  return { pct: Math.round((completadas/tareas.length)*100), total:tareas.length, completadas };
+}
+
+function formatDate(d){
+  if(!d) return "—";
+  const [y,m,day] = d.split("-");
+  return `${day}/${m}/${y}`;
+}
+
+function getVtoCategory(d){
+  if(!d) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const vto = new Date(d); vto.setHours(0,0,0,0);
+  if(vto < today) return "vencido";
+  const tm = today.getMonth(), ty = today.getFullYear();
+  if(vto.getMonth()===tm && vto.getFullYear()===ty) return "este-mes";
+  const nm = new Date(ty, tm+1, 1), nme = new Date(ty, tm+2, 0);
+  if(vto>=nm && vto<=nme) return "proximo-mes";
+  return "otro";
+}
+
+function vtoLabel(d){
+  if(!d) return "—";
+  const cat = getVtoCategory(d), ds = formatDate(d);
+  if(cat==="vencido") return `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-red" style="font-size:10px;padding:1px 6px">Vencido</span></span>`;
+  if(cat==="este-mes") return `<span style="color:var(--amber);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-amber" style="font-size:10px;padding:1px 6px">Este mes</span></span>`;
+  return `<span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)">${ds}</span>`;
+}
+
+function noteIcon(nota, id){
+  const hasNote = nota && nota.trim().length > 0;
+  const escaped = (nota||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+  return `<button class="note-btn ${hasNote?'has-note':''}" 
+    onmouseenter="showTooltip(event,'${escaped}')" 
+    onmouseleave="hideTooltip()"
+    onclick="editNota(${id})"
+    title="${hasNote?'Ver / editar nota':'Agregar nota'}">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 3h10v8H8l-5 2V3z"/>
+    </svg>
+  </button>`;
+}
+
+// ── Tooltip ────────────────────────────────────────────
+const tooltipEl = document.getElementById("tooltip");
+function showTooltip(e, text){
+  if(!text || !text.trim()){ tooltipEl.classList.remove("visible"); return; }
+  tooltipEl.textContent = text;
+  tooltipEl.classList.add("visible");
+  posTooltip(e);
+}
+function posTooltip(e){
+  const x = e.clientX + 12, y = e.clientY - 8;
+  tooltipEl.style.left = Math.min(x, window.innerWidth-280)+"px";
+  tooltipEl.style.top = y+"px";
+}
+function hideTooltip(){ tooltipEl.classList.remove("visible"); }
+
+function editNota(id){
+  const item = state.proyectos.find(x=>x.id===id);
+  if(!item) return;
+  const nota = prompt("Nota para: " + item.nombre, item.nota||"");
+  if(nota === null) return;
+  item.nota = nota;
+  saveState();
+  renderAll();
+}
+
+// ── Filtros Proyectos ──────────────────────────────────
+function getFiltersP(){
+  return {
+    vertical: document.getElementById("f-vertical").value,
+    estado: document.getElementById("f-estado").value,
+    responsable: document.getElementById("f-responsable").value,
+    vto: document.getElementById("f-vto").value
+  };
+}
+function applyFiltersP(){
+  const f = getFiltersP();
+  let filtered = state.proyectos.filter(p=>{
+    if(f.vertical && p.vertical!==f.vertical) return false;
+    if(f.estado && p.estado!==f.estado) return false;
+    if(f.responsable && p.resp!==f.responsable) return false;
+    if(f.vto && getVtoCategory(p.vto)!==f.vto) return false;
+    return true;
+  });
+  renderProyectosData(filtered);
+  const fc = document.getElementById("filter-count-p");
+  fc.textContent = filtered.length < state.proyectos.length ? `Mostrando ${filtered.length} de ${state.proyectos.length}` : "";
+}
+function resetFiltersP(){
+  ["f-vertical","f-estado","f-responsable","f-vto"].forEach(id=>document.getElementById(id).value="");
+  applyFiltersP();
+}
+function updateResponsableFilter(){
+  const sel = document.getElementById("f-responsable");
+  const cur = sel.value;
+  const resps = [...new Set(state.proyectos.map(p=>p.resp).filter(Boolean))].sort();
+  sel.innerHTML = `<option value="">Todos los responsables</option>` +
+    resps.map(r=>`<option ${r===cur?"selected":""}>${r}</option>`).join("");
+}
+
+// ── Filtros Tareas ─────────────────────────────────────
+function getFiltersT(){
+  return {
+    proyecto: document.getElementById("ft-proyecto").value,
+    responsable: document.getElementById("ft-responsable").value,
+    estado: document.getElementById("ft-estado").value,
+    prioridad: document.getElementById("ft-prioridad").value
+  };
+}
+function applyFiltersT(){
+  const f = getFiltersT();
+  let filtered = state.tareas.filter(t=>{
+    if(f.proyecto && t.proyecto!==f.proyecto) return false;
+    if(f.responsable && t.asignado!==f.responsable) return false;
+    if(f.estado && t.estado!==f.estado) return false;
+    if(f.prioridad && t.prioridad!==f.prioridad) return false;
+    return true;
+  });
+  renderTareasData(filtered);
+  const fc = document.getElementById("filter-count-t");
+  fc.textContent = filtered.length < state.tareas.length ? `Mostrando ${filtered.length} de ${state.tareas.length}` : "";
+}
+function resetFiltersT(){
+  ["ft-proyecto","ft-responsable","ft-estado","ft-prioridad"].forEach(id=>document.getElementById(id).value="");
+  applyFiltersT();
+}
+function updateTareaFilters(){
+  const sp = document.getElementById("ft-proyecto");
+  const sr = document.getElementById("ft-responsable");
+  const cp = sp.value, cr = sr.value;
+  const proyectos = [...new Set(state.tareas.map(t=>t.proyecto).filter(Boolean))].sort();
+  sp.innerHTML = `<option value="">Todos los proyectos</option>` +
+    proyectos.map(p=>`<option ${p===cp?"selected":""}>${p}</option>`).join("");
+  const resps = [...new Set(state.tareas.map(t=>t.asignado).filter(Boolean))].sort();
+  sr.innerHTML = `<option value="">Todos los responsables</option>` +
+    resps.map(r=>`<option ${r===cr?"selected":""}>${r}</option>`).join("");
+}
+
+// ── Render Proyectos ───────────────────────────────────
+function renderProyectosData(list){
+  const tb = document.getElementById("tbody-proyectos");
+  if(!list.length){
+    tb.innerHTML=`<tr class="empty-row"><td colspan="8">${state.proyectos.length?'No hay proyectos que coincidan con los filtros':'No hay proyectos cargados aún'}</td></tr>`;
+    return;
+  }
+  tb.innerHTML = list.map(p=>{
+    const prog = calcProgreso(p.nombre);
+    const progCell = prog!==null
+      ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total}</span></div>`
+      : `<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
+    return `<tr>
+      <td style="font-weight:400">${p.nombre}</td>
+      <td>${badge(p.vertical,VERTICAL_COLORS)}</td>
+      <td style="color:var(--text-2)">${p.resp||'—'}</td>
+      <td>${badge(p.estado,estadoC)}</td>
+      <td>${progCell}</td>
+      <td>${vtoLabel(p.vto)}</td>
+      <td style="text-align:center">${noteIcon(p.nota,p.id)}</td>
+      <td><button class="edit-btn" onclick="editRow('proyectos',${p.id})">editar</button></td>
+    </tr>`;
+  }).join("");
+}
+function renderProyectos(){
+  updateResponsableFilter();
+  applyFiltersP();
+}
+
+// ── Render KPIs agrupados por proyecto ────────────────
+function renderKPIs(){
+  const body = document.getElementById("kpi-body");
+  if(!state.kpis.length){
+    body.innerHTML=`<div class="kpi-empty">No hay KPIs cargados aún. Usá el botón para agregar.</div>`;
+    return;
+  }
+  // Agrupar
+  const groups = {};
+  state.kpis.forEach(k=>{
+    const key = k.proyecto||"__sin_proyecto__";
+    if(!groups[key]) groups[key]=[];
+    groups[key].push(k);
+  });
+  let html = "";
+  Object.keys(groups).sort((a,b)=>{
+    if(a==="__sin_proyecto__") return 1;
+    if(b==="__sin_proyecto__") return -1;
+    return a.localeCompare(b);
+  }).forEach(key=>{
+    const items = groups[key];
+    const proj = key==="__sin_proyecto__" ? null : state.proyectos.find(p=>p.nombre===key);
+    const vColor = proj ? (VERTICAL_COLORS[proj.vertical]||"b-gray") : "";
+    const titleHtml = key==="__sin_proyecto__"
+      ? `<span class="kpi-no-project">Sin proyecto asignado</span>`
+      : `${key}${proj?` <span class="badge ${vColor}" style="font-size:10px">${proj.vertical}</span>`:''}`;
+    html += `<div class="kpi-project-block">
+      <div class="kpi-project-title">${titleHtml}</div>
+      <table>
+        <thead><tr><th>Indicador</th><th>Meta</th><th>Actual</th><th>Período</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          ${items.map(k=>{
+            const pct = k.meta ? Math.min(Math.round((k.actual/k.meta)*100),100) : 0;
+            const c = pct>=100?"p-ok":pct>=85?"p-warn":"p-danger";
+            return `<tr>
+              <td>${k.indicador||'—'}</td>
+              <td style="font-family:'DM Mono',monospace">${k.meta}</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-family:'DM Mono',monospace;font-weight:500">${k.actual}</span>
+                  <div class="progress-track" style="width:60px"><div class="progress-fill ${c}" style="width:${pct}%"></div></div>
+                  <span style="font-size:10px;color:var(--text-3)">${pct}%</span>
+                </div>
+              </td>
+              <td style="color:var(--text-3);font-size:12px">${k.periodo||'—'}</td>
+              <td>${badge(k.estado,estadoC)}</td>
+              <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    </div>`;
+  });
+  body.innerHTML = html;
+}
+
+// ── Render Tareas ──────────────────────────────────────
+function renderTareasData(list){
+  const tb = document.getElementById("tbody-tareas");
+  if(!list.length){
+    tb.innerHTML=`<tr class="empty-row"><td colspan="6">${state.tareas.length?'No hay tareas que coincidan con los filtros':'No hay tareas cargadas aún'}</td></tr>`;
+    return;
+  }
+  tb.innerHTML = list.map(t=>`
+    <tr>
+      <td>${t.tarea||'—'}</td>
+      <td style="color:var(--text-2)">${t.asignado||'—'}</td>
+      <td>${badge(t.prioridad,prioC)}</td>
+      <td style="color:var(--text-3);font-size:12px">${t.proyecto||'—'}</td>
+      <td>${badge(t.estado,estadoC)}</td>
+      <td><button class="edit-btn" onclick="editRow('tareas',${t.id})">editar</button></td>
+    </tr>`).join("");
+}
+function renderTareas(){
+  updateTareaFilters();
+  applyFiltersT();
+}
+
+// ── Render Metrics ─────────────────────────────────────
+function renderMetrics(){
+  const activos = state.proyectos.filter(p=>p.estado==="En curso").length;
+  const riesgo = state.proyectos.filter(p=>p.estado==="En riesgo").length;
+  const total = state.proyectos.length;
+  const tareasPend = state.tareas.filter(t=>t.estado==="Pendiente").length;
+  const kpiOk = state.kpis.filter(k=>k.estado==="OK").length;
+  const kpiTotal = state.kpis.length;
+  document.getElementById("metrics-grid").innerHTML=`
+    <div class="metric"><div class="metric-label">Proyectos activos</div><div class="metric-value">${activos}</div><div class="metric-sub"><span class="metric-dot" style="background:var(--red)"></span>${riesgo} en riesgo · ${total} total</div></div>
+    <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${kpiTotal}</span></div><div class="metric-sub">Indicadores del período</div></div>
+    <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-value">${tareasPend}</div><div class="metric-sub">De ${state.tareas.length} tareas totales</div></div>`;
+}
+
+function renderAll(){ renderMetrics(); renderProyectos(); renderKPIs(); renderTareas(); }
+
+// ── Tabs ───────────────────────────────────────────────
+function showTab(name){
+  ["proyectos","kpis","tareas"].forEach(t=>{
+    document.getElementById("tab-"+t).style.display = t===name?"block":"none";
+  });
+}
+function setActive(el){
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+  el.classList.add("active");
+}
+
+// ── Edit / Save / Delete ───────────────────────────────
+function proyectosOptions(selected){
+  return `<option value="">-- Sin proyecto --</option>`+
+    state.proyectos.map(p=>`<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
+}
+
+function editRow(type, id){
+  const item = state[type].find(x=>x.id===id);
+  if(!item) return;
+  let form="", cols=7;
+  if(type==="proyectos"){
+    const vOpts = VERTICALES.map(v=>`<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
+    form=`<input type="text" id="ef-nombre" value="${item.nombre||''}" style="min-width:140px" placeholder="Nombre del proyecto">
+    <select id="ef-vertical"><option value="">— Vertical —</option>${vOpts}</select>
+    <select id="ef-estado">
+      <option ${item.estado==="En curso"?"selected":""}>En curso</option>
+      <option ${item.estado==="Completado"?"selected":""}>Completado</option>
+      <option ${item.estado==="En riesgo"?"selected":""}>En riesgo</option>
+      <option ${item.estado==="Pausado"?"selected":""}>Pausado</option>
+    </select>
+    <input type="text" id="ef-resp" value="${item.resp||''}" style="width:100px" placeholder="Responsable">
+    <input type="text" id="ef-vto" value="${item.vto||''}" style="width:110px" placeholder="YYYY-MM-DD">
+    <textarea id="ef-nota" placeholder="Nota (opcional)">${item.nota||''}</textarea>`;
+  } else if(type==="kpis"){
+    cols=5;
+    form=`<input type="text" id="ef-indicador" value="${item.indicador||''}" style="width:140px" placeholder="Indicador">
+    <select id="ef-proyecto-kpi">${proyectosOptions(item.proyecto)}</select>
+    <input type="number" id="ef-meta" value="${item.meta||''}" style="width:65px" placeholder="Meta">
+    <input type="number" id="ef-actual" value="${item.actual||''}" style="width:65px" placeholder="Actual">
+    <input type="text" id="ef-periodo" value="${item.periodo||''}" style="width:90px" placeholder="Período">`;
+  } else if(type==="tareas"){
+    cols=5;
+    form=`<input type="text" id="ef-tarea" value="${item.tarea||''}" style="min-width:140px" placeholder="Tarea">
+    <input type="text" id="ef-asignado" value="${item.asignado||''}" style="width:100px" placeholder="Asignado a">
+    <select id="ef-proyecto">${proyectosOptions(item.proyecto)}</select>
+    <select id="ef-estado">
+      <option ${item.estado==="Pendiente"?"selected":""}>Pendiente</option>
+      <option ${item.estado==="En curso"?"selected":""}>En curso</option>
+      <option ${item.estado==="Completado"?"selected":""}>Completado</option>
+    </select>
+    <select id="ef-prio">
+      <option ${item.prioridad==="Alta"?"selected":""}>Alta</option>
+      <option ${item.prioridad==="Media"?"selected":""}>Media</option>
+      <option ${item.prioridad==="Baja"?"selected":""}>Baja</option>
+    </select>`;
+  }
+
+  const tbody = document.getElementById("tbody-"+type);
+  if(!tbody) { renderKPIsEdit(type, id, item, form, cols); return; }
+  const idx = state[type].findIndex(x=>x.id===id);
+  const rows = tbody.querySelectorAll("tr");
+  if(rows[idx]) rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
+    <button class="save-btn" onclick="saveRow('${type}',${id})">Guardar</button>
+    <button class="del-btn" onclick="deleteRow('${type}',${id})">Eliminar</button>
+  </div></td><td></td>`;
+}
+
+function renderKPIsEdit(type, id, item, form, cols){
+  // Para KPIs que usan renderKPIs (no tbody directo), re-render y luego busca el botón editar
+  // Se maneja inline a través de la tabla dentro de kpi-body
+  const allRows = document.querySelectorAll("#kpi-body tbody tr");
+  let targetRow = null;
+  allRows.forEach(row=>{
+    const btn = row.querySelector(".edit-btn");
+    if(btn && btn.getAttribute("onclick")===`editRow('kpis',${id})`){ targetRow=row; }
+  });
+  if(targetRow) targetRow.innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
+    <button class="save-btn" onclick="saveRow('kpis',${id})">Guardar</button>
+    <button class="del-btn" onclick="deleteRow('kpis',${id})">Eliminar</button>
+  </div></td><td></td>`;
+}
+
+function saveRow(type, id){
+  const item = state[type].find(x=>x.id===id);
+  if(!item) return;
+  if(type==="proyectos"){
+    const oldNombre = item.nombre;
+    item.nombre = document.getElementById("ef-nombre").value||item.nombre;
+    item.vertical = document.getElementById("ef-vertical").value;
+    item.resp = document.getElementById("ef-resp").value;
+    item.estado = document.getElementById("ef-estado").value;
+    item.vto = document.getElementById("ef-vto").value;
+    item.nota = document.getElementById("ef-nota").value;
+    if(oldNombre!==item.nombre){
+      state.tareas.forEach(t=>{if(t.proyecto===oldNombre)t.proyecto=item.nombre;});
+      state.kpis.forEach(k=>{if(k.proyecto===oldNombre)k.proyecto=item.nombre;});
+    }
+  } else if(type==="kpis"){
+    item.indicador = document.getElementById("ef-indicador").value||item.indicador;
+    item.proyecto = document.getElementById("ef-proyecto-kpi").value;
+    item.meta = parseFloat(document.getElementById("ef-meta").value)||item.meta;
+    item.actual = parseFloat(document.getElementById("ef-actual").value)||0;
+    item.periodo = document.getElementById("ef-periodo").value||item.periodo;
+    item.estado = item.actual>=item.meta?"OK":item.actual>=item.meta*0.85?"Riesgo":"Crítico";
+  } else if(type==="tareas"){
+    item.tarea = document.getElementById("ef-tarea").value||item.tarea;
+    item.asignado = document.getElementById("ef-asignado").value;
+    item.proyecto = document.getElementById("ef-proyecto").value;
+    item.estado = document.getElementById("ef-estado").value;
+    item.prioridad = document.getElementById("ef-prio").value;
+  }
+  saveState();
+  renderAll();
+}
+
+function deleteRow(type, id){
+  state[type] = state[type].filter(x=>x.id!==id);
+  saveState();
+  renderAll();
+}
+
+function addRow(type){
+  const id = nextId++;
+  if(type==="proyectos") state.proyectos.push({id,nombre:"",vertical:"",resp:"",estado:"En curso",vto:"",nota:""});
+  else if(type==="kpis") state.kpis.push({id,indicador:"",proyecto:"",meta:100,actual:0,periodo:"",estado:"Riesgo"});
+  else if(type==="tareas") state.tareas.push({id,tarea:"",asignado:"",prioridad:"Media",proyecto:"",estado:"Pendiente"});
+  saveState();
+  renderAll();
+  setTimeout(()=>editRow(type,id),80);
+}
+
+function updateClock(){
+  document.getElementById("clock").textContent = new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+}
+
+loadState();
+renderAll();
+updateClock();
+setInterval(updateClock,30000);
+</script>
+</body>
+</html>
