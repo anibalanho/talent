@@ -357,6 +357,10 @@ function calcProgreso(nombre){
 
 function getSemaforo(nombre){
   const proj=state.proyectos.find(p=>p.nombre===nombre);
+
+  // Proyectos completados o pausados no entran al semáforo
+  if(proj&&(proj.estado==="Completado"||proj.estado==="Pausado"))return"verde";
+
   const prog=calcProgreso(nombre);
 
   // Semaforo por tareas
@@ -386,8 +390,7 @@ function getSemaforo(nombre){
 
   // El más crítico gana
   const rank={"rojo":3,"amarillo":2,"verde":1,"gris":0};
-  const semFinal=rank[semTareas]>=rank[semFecha]?semTareas:semFecha;
-  return semFinal;
+  return rank[semTareas]>=rank[semFecha]?semTareas:semFecha;
 }
 
 function semaforoCell(nombre){
