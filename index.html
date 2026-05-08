@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tablero de operaciones</title>
+<title>Tablero de proyectos</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -20,32 +20,30 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
 .layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
-
-.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
 .logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:20px}
-.logo-name{font-size:13px;font-weight:500;color:var(--text)}
+.logo-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
 .logo-sub{font-size:11px;color:var(--text-3);margin-top:2px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;font-size:13px;color:var(--text-2);transition:all 0.15s;border-left:2px solid transparent}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:var(--surface2);color:var(--text);font-weight:500;border-left:2px solid var(--text)}
-.nav-icon{width:16px;height:16px;opacity:0.6}
+.nav-icon{width:16px;height:16px;opacity:0.6;flex-shrink:0}
 .nav-item.active .nav-icon{opacity:1}
 .nav-section{font-size:10px;font-weight:500;letter-spacing:0.08em;color:var(--text-3);padding:16px 20px 6px;text-transform:uppercase}
 .sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
 .clock-display{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)}
-
+.export-btn{margin-top:10px;width:100%;font-size:11px;font-family:'DM Sans',sans-serif;padding:6px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:none;color:var(--text-2);cursor:pointer;text-align:left;display:flex;align-items:center;gap:6px}
+.export-btn:hover{background:var(--surface2);color:var(--text)}
 .main{padding:32px 36px;overflow-x:hidden}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
+.page-header{margin-bottom:28px}
 .page-title{font-size:22px;font-weight:400;letter-spacing:-0.02em}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
-
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
 .metric-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
 .metric-value{font-size:26px;font-weight:300;letter-spacing:-0.03em}
 .metric-sub{font-size:11px;color:var(--text-3);margin-top:5px}
 .metric-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle}
-
 .filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .filter-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px}
 .filter-select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;outline:none}
@@ -53,7 +51,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .filter-reset{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:none;background:none;color:var(--text-3);cursor:pointer;border-radius:var(--radius-sm)}
 .filter-reset:hover{background:var(--surface2);color:var(--text)}
 .filter-count{font-size:11px;color:var(--text-3);margin-left:4px}
-
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
 .table-title{font-size:13px;font-weight:500}
@@ -65,7 +62,6 @@ tbody td{padding:11px 20px;border-bottom:1px solid var(--border);font-size:13px;
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:#FAFAF8}
 .empty-row td{text-align:center;color:var(--text-3);font-size:13px;padding:32px 20px}
-
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
 .b-green{background:var(--green-bg);color:var(--green-text)}
 .b-amber{background:var(--amber-bg);color:var(--amber-text)}
@@ -76,48 +72,34 @@ tbody tr:hover td{background:#FAFAF8}
 .b-teal{background:#E1F5EE;color:#085041}
 .b-coral{background:#FAECE7;color:#712B13}
 .b-pink{background:#FBEAF0;color:#72243E}
-
 .progress-wrap{display:flex;align-items:center;gap:8px;min-width:100px}
 .progress-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;border-radius:2px;transition:width 0.4s}
 .p-ok{background:var(--green)}.p-warn{background:#E09A20}.p-danger{background:var(--red)}
 .progress-pct{font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;min-width:30px}
 .task-count{font-size:10px;color:var(--text-3)}
-
-/* Notes tooltip */
 .note-btn{background:none;border:none;cursor:pointer;padding:3px;border-radius:4px;color:var(--text-3);position:relative;display:inline-flex;align-items:center}
 .note-btn:hover{color:var(--text);background:var(--surface2)}
 .note-btn svg{width:15px;height:15px}
 .note-btn.has-note{color:var(--amber)}
 .tooltip{position:fixed;background:var(--text);color:#fff;font-size:12px;padding:8px 12px;border-radius:var(--radius-sm);max-width:260px;line-height:1.5;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:pre-wrap;word-break:break-word}
 .tooltip.visible{opacity:1}
-
-/* KPI section */
-.kpi-project-block{margin-bottom:20px}
-.kpi-project-title{font-size:13px;font-weight:500;color:var(--text);padding:12px 20px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.kpi-project-title .badge{font-size:10px}
-.kpi-no-project{font-style:italic;color:var(--text-3);font-size:12px}
+.kpi-project-block{margin-bottom:0}
+.kpi-project-title{font-size:13px;font-weight:500;color:var(--text);padding:12px 20px;background:var(--surface2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.kpi-project-title:first-child{border-top:none}
 .kpi-empty{padding:24px 20px;text-align:center;color:var(--text-3);font-size:13px}
-
 .edit-cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
 input[type=text],input[type=number],select,textarea{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none}
 textarea{resize:vertical;min-height:56px;width:200px}
-input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{border-color:var(--text)}
+input:focus,select:focus,textarea:focus{border-color:var(--text)}
 .save-btn{font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;background:var(--text);color:#FFF;border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer}
 .del-btn{font-size:12px;font-family:'DM Sans',sans-serif;background:none;color:var(--red);border:1px solid var(--red-bg);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer}
 .del-btn:hover{background:var(--red-bg)}
 .edit-btn{font-size:11px;font-family:'DM Sans',sans-serif;background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 9px;cursor:pointer;color:var(--text-3)}
 .edit-btn:hover{border-color:var(--border-strong);color:var(--text)}
-
 .save-notice{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;font-size:12px;padding:8px 16px;border-radius:var(--radius-sm);opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none}
 .save-notice.show{opacity:1}
-
-@media(max-width:900px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .main{padding:20px}
-  .metrics{grid-template-columns:repeat(2,1fr)}
-}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:20px}.metrics{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.metrics{grid-template-columns:1fr}}
 </style>
 </head>
@@ -125,7 +107,7 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
 <div class="layout">
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-name">Área de Talento</div>
+      <div class="logo-name">Gerencia de Talento & Cultura</div>
       <div class="logo-sub">Panel de operaciones</div>
     </div>
     <span class="nav-section">Vistas</span>
@@ -143,24 +125,18 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
     </div>
     <div class="sidebar-footer">
       <div class="clock-display" id="clock">--/--/---- --:--</div>
-      <button onclick="exportData()" style="margin-top:10px;width:100%;font-size:11px;font-family:'DM Sans',sans-serif;padding:6px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:none;color:var(--text-2);cursor:pointer;text-align:left;display:flex;align-items:center;gap:6px">
+      <button class="export-btn" onclick="exportData()">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
         Exportar datos
       </button>
     </div>
   </aside>
-
   <main class="main">
     <div class="page-header">
-      <div>
-        <div class="page-title">Tablero de operaciones</div>
-        <div class="page-sub">Monitoreo de iniciativas y procesos del área</div>
-      </div>
+      <div class="page-title">Tablero de proyectos</div>
+      <div class="page-sub">Monitoreo de iniciativas y procesos del área</div>
     </div>
-
     <div class="metrics" id="metrics-grid"></div>
-
-    <!-- PROYECTOS -->
     <div id="tab-proyectos">
       <div class="filters">
         <span class="filter-label">Filtrar</span>
@@ -191,16 +167,11 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
           <button class="add-btn" onclick="addRow('proyectos')">+ Agregar proyecto</button>
         </div>
         <table>
-          <thead><tr>
-            <th>Proyecto</th><th>Vertical</th><th>Responsable</th>
-            <th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th>Notas</th><th></th>
-          </tr></thead>
+          <thead><tr><th>Proyecto</th><th>Vertical</th><th>Responsable</th><th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th>Notas</th><th></th></tr></thead>
           <tbody id="tbody-proyectos"></tbody>
         </table>
       </div>
     </div>
-
-    <!-- KPIs -->
     <div id="tab-kpis" style="display:none">
       <div class="table-wrap">
         <div class="table-header">
@@ -210,8 +181,6 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
         <div id="kpi-body"></div>
       </div>
     </div>
-
-    <!-- TAREAS -->
     <div id="tab-tareas" style="display:none">
       <div class="filters">
         <span class="filter-label">Filtrar</span>
@@ -245,223 +214,191 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
     </div>
   </main>
 </div>
-
-<!-- Tooltip -->
 <div class="tooltip" id="tooltip"></div>
-<!-- Save notice -->
-<div class="save-notice" id="save-notice">Guardado</div>
-
+<div class="save-notice" id="save-notice">Guardado ✓</div>
 <script>
-const VERTICALES = ["Atracción","Desarrollo","Aprendizaje","Talento","Cultura","Comunicación"];
-const VERTICAL_COLORS = {
-  "Atracción":"b-blue","Desarrollo":"b-purple","Aprendizaje":"b-teal",
-  "Talento":"b-coral","Cultura":"b-pink","Comunicación":"b-amber"
-};
-const estadoC = {
-  "En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray",
-  "Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"
-};
-const prioC = {"Alta":"b-red","Media":"b-amber","Baja":"b-gray"};
+const VERTICALES=["Atracción","Desarrollo","Aprendizaje","Talento","Cultura","Comunicación"];
+const VERTICAL_COLORS={"Atracción":"b-blue","Desarrollo":"b-purple","Aprendizaje":"b-teal","Talento":"b-coral","Cultura":"b-pink","Comunicación":"b-amber"};
+const estadoC={"En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray","Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"};
+const prioC={"Alta":"b-red","Media":"b-amber","Baja":"b-gray"};
+const STORAGE_KEY="talento_dashboard_v2";
 
-// ── localStorage ──────────────────────────────────────
-const STORAGE_KEY = "talento_dashboard_v2";
+let nextId=216;
+const state={
+  proyectos:[{"id": 1, "nombre": "Implementación Módulo Reclutamiento SFSF", "vertical": "Atracción", "resp": "Vanesa", "estado": "Completado", "vto": "2026-04-01", "nota": ""}, {"id": 2, "nombre": "Chatbot Reclutador", "vertical": "Atracción", "resp": "Ani", "estado": "En curso", "vto": "2026-12-31", "nota": "Reuniones de relevamiento con potenciales partners y equipo interno"}, {"id": 3, "nombre": "Agente de Talento Teams", "vertical": "Talento", "resp": "Ani", "estado": "En curso", "vto": "2026-12-31", "nota": ""}, {"id": 4, "nombre": "Onboarding Segmentado", "vertical": "Atracción", "resp": "Melina", "estado": "En curso", "vto": "2026-08-31", "nota": ""}, {"id": 5, "nombre": "Lidera+", "vertical": "Aprendizaje", "resp": "Leandro", "estado": "En curso", "vto": "2026-12-31", "nota": ""}, {"id": 6, "nombre": "Performance - rediseño y lanzamiento", "vertical": "Desarrollo", "resp": "Mariela", "estado": "En curso", "vto": "2026-12-31", "nota": ""}, {"id": 7, "nombre": "Marca Empleadora", "vertical": "Atracción", "resp": "Melina", "estado": "En curso", "vto": "2026-12-31", "nota": ""}, {"id": 8, "nombre": "Avatars | Capacitación en productos", "vertical": "Aprendizaje", "resp": "Leandro", "estado": "En curso", "vto": "2026-05-31", "nota": ""}, {"id": 9, "nombre": "Core Recaudaciones ", "vertical": "Desarrollo", "resp": "Mariela ", "estado": "En curso", "vto": "2026-09-31", "nota": ""}, {"id": 10, "nombre": "Feedback 360° Exco", "vertical": "Desarrollo", "resp": "Ani", "estado": "En curso", "vto": "2026-05-31", "nota": ""}, {"id": 11, "nombre": "Outplacement", "vertical": "Atracción", "resp": "Melina", "estado": "En curso", "vto": "2026-07-31", "nota": ""}, {"id": 12, "nombre": "Comunidades de Aprendizaje", "vertical": "Aprendizaje", "resp": "Ani", "estado": "En curso", "vto": "2026-07-31", "nota": ""}, {"id": 167, "nombre": "Programa de Empleabildad", "vertical": "Comunicación", "resp": "Sofía", "estado": "En curso", "vto": "2026-10-31", "nota": ""}, {"id": 168, "nombre": "Evolución PX", "vertical": "Cultura", "resp": "Majo", "estado": "En curso", "vto": "2026-12-31", "nota": ""}, {"id": 169, "nombre": "Facilitadores de Cultura", "vertical": "Cultura", "resp": "Sofia", "estado": "En curso", "vto": "2026-05-31", "nota": ""}, {"id": 170, "nombre": "Marketing Cloud", "vertical": "Comunicación", "resp": "Majo", "estado": "En curso", "vto": "", "nota": ""}, {"id": 171, "nombre": "Diagnóstico Estándares B", "vertical": "Cultura", "resp": "Sofia", "estado": "En curso", "vto": "2026-05-29", "nota": ""}, {"id": 172, "nombre": "Podcast", "vertical": "Comunicación", "resp": "Majo", "estado": "En curso", "vto": "2026-05-30", "nota": ""}, {"id": 173, "nombre": "ACAP", "vertical": "Cultura", "resp": "Sofía", "estado": "En curso", "vto": "2026-10-31", "nota": ""}],
+  kpis:[{"id": 13, "indicador": "% crecimiento seguidores en LinkedIn", "proyecto": "Marca Empleadora", "meta": 5, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 14, "indicador": "% hires contratados por LinkedIn", "proyecto": "Marca Empleadora", "meta": 50, "actual": 40, "periodo": "2026", "estado": "Crítico"}, {"id": 15, "indicador": "eNPS candidatos", "proyecto": "Marca Empleadora", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 16, "indicador": "Tasa de aceptación de ofertas", "proyecto": "Marca Empleadora", "meta": 95, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 17, "indicador": "Satisfacción onboarding", "proyecto": "Onboarding Segmentado", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 18, "indicador": "eNPS onboarding", "proyecto": "Onboarding Segmentado", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 19, "indicador": "Rotación en los primeros 6 meses", "proyecto": "Onboarding Segmentado", "meta": 10, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 20, "indicador": "Tiempo de autonomía a los 90 días", "proyecto": "Onboarding Segmentado", "meta": 80, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 21, "indicador": "% evaluaciones cerradas dentro del plazo", "proyecto": "Performance - rediseño y lanzamiento", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 22, "indicador": "% evaluaciones con feedback cualitativo", "proyecto": "Performance - rediseño y lanzamiento", "meta": 75, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 23, "indicador": "Alineación forecast/resultado", "proyecto": "Performance - rediseño y lanzamiento", "meta": 95, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 24, "indicador": "Q planes de acción aplicados al negocio", "proyecto": "Lidera+", "meta": 6, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 25, "indicador": "% participación respondentes", "proyecto": "Feedback 360° Exco", "meta": 75, "actual": 98.87, "periodo": "2026", "estado": "OK"}, {"id": 26, "indicador": "% ExCo con PDI activo", "proyecto": "Feedback 360° Exco", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 27, "indicador": "% participación", "proyecto": "Lidera+", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 28, "indicador": "% satisfacción", "proyecto": "Lidera+", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 29, "indicador": "% aprobación post capacitación", "proyecto": "Avatars | Capacitación en productos", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 30, "indicador": "% población objetivo que completa las cápsulas", "proyecto": "Avatars | Capacitación en productos", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 31, "indicador": "Q personas desvinculadas/Q personas interesadas en el programa", "proyecto": "Outplacement", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 32, "indicador": "% casos que completan el proceso", "proyecto": "Outplacement", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 33, "indicador": "% personas relocalizadas", "proyecto": "Outplacement", "meta": 30, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 34, "indicador": "% roles críticos formados antes del go-live.", "proyecto": "Core Recaudaciones ", "meta": 70, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 35, "indicador": "Nivel de resistencia detectado./gestión con el liderazgo", "proyecto": "Core Recaudaciones ", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 36, "indicador": "% de interacciones automatizadas", "proyecto": "Chatbot Reclutador", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 37, "indicador": "Reducción del tiempo administrativo del recruiter", "proyecto": "Chatbot Reclutador", "meta": 30, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 38, "indicador": "% candidatos que se caen antes de entrevista.", "proyecto": "Chatbot Reclutador", "meta": 5, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 39, "indicador": "nº de colaboradores/total de nómina que interactúan con el agente.", "proyecto": "Agente de Talento Teams", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 40, "indicador": "% Cumplimiento del SLA de recruiting", "proyecto": "Chatbot Reclutador", "meta": 95, "actual": 85, "periodo": "2026", "estado": "Riesgo"}, {"id": 41, "indicador": "% consultas que el agente resuelve sin derivación a humano.", "proyecto": "Agente de Talento Teams", "meta": 30, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 42, "indicador": "Tasa de repetición: % de usuarios que vuelven a usarlo", "proyecto": "Agente de Talento Teams", "meta": 90, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 43, "indicador": "NPS del agente", "proyecto": "Agente de Talento Teams", "meta": 50, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 174, "indicador": "Tasa de participación/empleo", "proyecto": "Programa de Empleabildad", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 175, "indicador": "eNPS áreas críticas/planes de acción", "proyecto": "Evolución PX", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 176, "indicador": "Alcance/Objetivos", "proyecto": "Facilitadores de Cultura", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 177, "indicador": "Apertura/clicks", "proyecto": "Marketing Cloud", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 178, "indicador": "Diagnóstico/ejes de acción", "proyecto": "Diagnóstico Estándares B", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 179, "indicador": "Repreducciones/views", "proyecto": "Podcast", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}, {"id": 180, "indicador": "% satisfacción", "proyecto": "ACAP", "meta": 100, "actual": 0, "periodo": "2026", "estado": "Crítico"}],
+  tareas:[{"id": 44, "tarea": "Definición de alcance y diagnóstico inicial", "asignado": "Ani", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 45, "tarea": "Diseño del proceso y del modelo de datos: flujo de aprobación de vacantes, candidatos, roles y permisos", "asignado": "Ani", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 46, "tarea": "Configuración funcional del módulo", "asignado": "Consultora IT", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 47, "tarea": "Integraciones a Empleado Central", "asignado": "Consultora IT", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 48, "tarea": "Pruebas en entorno test", "asignado": "Vanesa", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 49, "tarea": "Reuniones de ajuste", "asignado": "Vanesa", "prioridad": "Media", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 50, "tarea": "Diseño y lanzamiento del módulo en KO", "asignado": "Vanesa", "prioridad": "Alta", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 51, "tarea": "Acompañamiento a líderes en el uso", "asignado": "Atracción", "prioridad": "Media", "proyecto": "Implementación Módulo Reclutamiento SFSF", "estado": "Completado"}, {"id": 52, "tarea": "Definición estratégica y caso de negocio", "asignado": "Ani", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "En curso"}, {"id": 53, "tarea": "Diseño de experiencia del candidato", "asignado": "Melina", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "En curso"}, {"id": 54, "tarea": "Crear contenido y base de conocimiento", "asignado": "Melina", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "En curso"}, {"id": 55, "tarea": "Definición de partner (interno/externo)", "asignado": "Ani", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "En curso"}, {"id": 56, "tarea": "Presentación del caso a JJ", "asignado": "Ani", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 57, "tarea": "Implementación e Integración con sistemas", "asignado": "IT", "prioridad": "Alta", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 58, "tarea": "RACI + criterios de uso responsable.", "asignado": "Ani", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 59, "tarea": "Piloto y prueba controlada: reporte de piloto + backlog de mejoras.", "asignado": "Atracción", "prioridad": "Alta", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 60, "tarea": "Lanzamiento y comunicación", "asignado": "Atracción", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 61, "tarea": "Medición y mejora continua", "asignado": "Ani", "prioridad": "Media", "proyecto": "Chatbot Reclutador", "estado": "Pendiente"}, {"id": 62, "tarea": "Definición de propósito y alcance", "asignado": "Ani", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Completado"}, {"id": 63, "tarea": "Presentación de caso de negocio a JJ", "asignado": "Ani", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 64, "tarea": "Definición de partners (intero o externo)", "asignado": "Ani", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Completado"}, {"id": 65, "tarea": "Identificación de dominios de conocimiento (qué “sabe” el agente)", "asignado": "Ani", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 66, "tarea": "Curaduría y estructuración del contenido", "asignado": "Talento", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 67, "tarea": "Diseño de experiencia conversacional: mapa conversacional + intents priorizados.", "asignado": "Melina", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 68, "tarea": "Gobierno, riesgos y límites: RACI + principios de uso responsable", "asignado": "IT", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 69, "tarea": "Desarrollo de agente", "asignado": "IT", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 70, "tarea": "Integración mínima con el ecosistema interno: teams, SFSF, forms", "asignado": "IT", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 71, "tarea": "Testeo en grupos reducidos - backlog de mejoras + decisión de escalado.", "asignado": "Talento", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 72, "tarea": "Lanzamiento y adopción", "asignado": "Talento", "prioridad": "Alta", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 73, "tarea": "Medición, evolución e impacto en el trabajo", "asignado": "Ani", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Pendiente"}, {"id": 74, "tarea": "Fases, hitos y responsables", "asignado": "Julián", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Completado"}, {"id": 75, "tarea": "Diagnóstico 360°", "asignado": "Laura Lezman", "prioridad": "Alta", "proyecto": "Marca Empleadora", "estado": "Completado"}, {"id": 76, "tarea": "KO con célula de trabajo", "asignado": "Laura Lezman", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Completado"}, {"id": 77, "tarea": "Presentación de resultados de diagnóstico", "asignado": "Laura Lezman", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Completado"}, {"id": 78, "tarea": "Definición de EVP y arquetipos de talento", "asignado": "Melina", "prioridad": "Alta", "proyecto": "Marca Empleadora", "estado": "En curso"}, {"id": 79, "tarea": "Narrativa y Brand Book de Marca Empleadora", "asignado": "Laura Lezman", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Pendiente"}, {"id": 80, "tarea": "Contenidos y activación inicial", "asignado": "Melina", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Pendiente"}, {"id": 81, "tarea": "Liderazgo como embajador de marca | Acciones de empoderamiento", "asignado": "Melina", "prioridad": "Alta", "proyecto": "Marca Empleadora", "estado": "Pendiente"}, {"id": 82, "tarea": "Activación, lanzamiento general y quick wins", "asignado": "Equipo", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Pendiente"}, {"id": 83, "tarea": "Medición, control y mejora continua", "asignado": "Ani", "prioridad": "Media", "proyecto": "Marca Empleadora", "estado": "Pendiente"}, {"id": 84, "tarea": "Definición del marco del onboarding segmentado", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "Completado"}, {"id": 85, "tarea": "Mapeo del journey actual y detección de brechas", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "En curso"}, {"id": 86, "tarea": "Diseño de segmentos de onboarding", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "Completado"}, {"id": 87, "tarea": "Diseño del onboarding corporativo común", "asignado": "Vanesa", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "Completado"}, {"id": 88, "tarea": "Diseño del onboarding segmentado por población", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "En curso"}, {"id": 89, "tarea": "Rol del líder y del facilitador de cultura", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "En curso"}, {"id": 90, "tarea": "Seguimiento, feedback y medición", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "Pendiente"}, {"id": 91, "tarea": "Lanzamiento y estandarización del onboarding segmentado", "asignado": "Melina", "prioridad": "Media", "proyecto": "Onboarding Segmentado", "estado": "Pendiente"}, {"id": 92, "tarea": "Diagnóstico y aprendizaje del ciclo anterior", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 93, "tarea": "Definición del propósito y evolución del programa", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 94, "tarea": "Relevamiento por Direcciones y focos estratégicos", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 95, "tarea": "Definición de habilidades foco 2026", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 96, "tarea": "Diseño del modelo y formato del programa", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 97, "tarea": "Selección de partners y facilitadores", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Completado"}, {"id": 98, "tarea": "Presentación del programa en Comité de HR", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "En curso"}, {"id": 99, "tarea": "KO: Consolidar el ticket to play para líderes (qué se espera de su participación).", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "En curso"}, {"id": 100, "tarea": "Diseño operativo del Sprint Q2–Q3", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Lidera+", "estado": "En curso"}, {"id": 101, "tarea": "Diseño de talleres con consultoras", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Lidera+", "estado": "Pendiente"}, {"id": 102, "tarea": "Ejecución del programa", "asignado": "Consultoras", "prioridad": "Alta", "proyecto": "Lidera+", "estado": "Pendiente"}, {"id": 103, "tarea": "Medición de impacto y aprendizajes según indicadores y entregables definidos", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Lidera+", "estado": "Pendiente"}, {"id": 104, "tarea": "Cierre y presentación de resultados", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Lidera+", "estado": "Pendiente"}, {"id": 105, "tarea": "Definición del enfoque general 2026", "asignado": "Desarrollo", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 106, "tarea": "Diseño del roadmap general del proceso", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 107, "tarea": "Proceso anual: diseño de comunicaciones", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 108, "tarea": "Cargar en SuccessFactors los objetivos de Dirección", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 109, "tarea": "Kick-offs de performance por Dirección.", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 110, "tarea": "Comerciales / Producto (Proceso semestral): Definición del proceso semestral alineado al ciclo del negocio comercial", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 111, "tarea": "Diseño del formulario simplificado", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 112, "tarea": "Alineación con áreas clave (Producto, Planeamiento, RR. HH.) para asegurar coherencia entre objetivos, resultados e incentivos.", "asignado": "Mariela", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 113, "tarea": "Confirmar y consensuar: Objetivos de cada Gerencia con Planeamiento Estratégico.", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 114, "tarea": "Configurar en SuccessFactors", "asignado": "Consultora IT", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 115, "tarea": "Ejecutar el cierre del 1er semestre. Lanzamiento de formularios", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 116, "tarea": "Integrar resultados al proceso de incentivos.", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 117, "tarea": "Cajeros: diagnóstico y definición de un nuevo modelo", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 118, "tarea": "Alineación con gerente y supervisores de la red", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Completado"}, {"id": 119, "tarea": "Refuerzo del uso de feedback continuo en SuccessFactors", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 120, "tarea": "Configurar en SuccessFactors", "asignado": "Consultora IT", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 121, "tarea": "Lanzamiento de formularios", "asignado": "Mariela", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 122, "tarea": "Comunicación, soporte y seguimiento (todas las poblaciones)", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 123, "tarea": "Mensajes claves en Conectando Abril", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "En curso"}, {"id": 124, "tarea": "Monitorear adhesión y calidad del proceso.", "asignado": "Mariela", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 125, "tarea": "Campañas de cierre a fin de año", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 126, "tarea": "Medición de experiencia", "asignado": "Mariela", "prioridad": "Alta", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 127, "tarea": "Cierre de performance y presentación de resultados", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Performance - rediseño y lanzamiento", "estado": "Pendiente"}, {"id": 128, "tarea": "Exploración y selección de herramienta de IA", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "Completado"}, {"id": 129, "tarea": "Desarrollo de demo y prueba de concepto", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "Completado"}, {"id": 130, "tarea": "Definición preliminar del enfoque formativo", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "En curso"}, {"id": 131, "tarea": "Definición del alcance de contenidos de producto", "asignado": "Leandro ", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "En curso"}, {"id": 132, "tarea": "Integración con ecosistema de aprendizaje", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "En curso"}, {"id": 133, "tarea": "Cierre del diseño instruccional", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 134, "tarea": "Alineación con owners de producto", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 135, "tarea": "Producción de cápsulas con avatares", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 136, "tarea": "Piloto y validación", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 137, "tarea": "Integración final y lanzamiento", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 138, "tarea": "Escalado del modelo - análisis según impacto", "asignado": "Leandro", "prioridad": "Alta", "proyecto": "Avatars | Capacitación en productos", "estado": "Pendiente"}, {"id": 139, "tarea": "Definición estratégica y encuadre del proceso", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 140, "tarea": "Diseño del modelo de evaluación", "asignado": "Ani", "prioridad": "Alta", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 141, "tarea": "Gobierno, confidencialidad y partners", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 142, "tarea": "Diseño de materiales y comunicaciones", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 143, "tarea": "KO ExCo", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 144, "tarea": "KO evaluadores", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 145, "tarea": "Operativización del proceso", "asignado": "Churba", "prioridad": "Alta", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 146, "tarea": "Comunicación de seguimiento", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 147, "tarea": "Cierre de la evaluación", "asignado": "Churba", "prioridad": "Alta", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 148, "tarea": "Devoluciones individuales", "asignado": "Churba", "prioridad": "Alta", "proyecto": "Feedback 360° Exco", "estado": "Completado"}, {"id": 149, "tarea": "Devolución HR + GDS", "asignado": "Churba", "prioridad": "Alta", "proyecto": "Feedback 360° Exco", "estado": "En curso"}, {"id": 150, "tarea": "Integración con otras prácticas de Talento", "asignado": "Ani", "prioridad": "Media", "proyecto": "Feedback 360° Exco", "estado": "Pendiente"}, {"id": 151, "tarea": "Definición del enfoque y marco del acompañamiento", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "Completado"}, {"id": 152, "tarea": "Diseño del proceso de outplacement Gire (end to end)", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "Completado"}, {"id": 153, "tarea": "Desarrollo de materiales y recursos de apoyo", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "En curso"}, {"id": 154, "tarea": "Organización interna del proceso", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "En curso"}, {"id": 155, "tarea": "Activación del proceso", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "En curso"}, {"id": 156, "tarea": "Alineación inter-áreas", "asignado": "Melina", "prioridad": "Media", "proyecto": "Outplacement", "estado": "Completado"}, {"id": 157, "tarea": "Medición del impacto del programa", "asignado": "Melina", "prioridad": "Alta", "proyecto": "Outplacement", "estado": "Pendiente"}, {"id": 158, "tarea": "Alineación estratégica y sponsor ejecutivo", "asignado": "Julián", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Completado"}, {"id": 159, "tarea": "Trabajo de alineación inter-áreas", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 160, "tarea": "Diagnóstico de impacto organizacional : roles y responsabilidades", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 161, "tarea": "Traducir el diseño técnico a impacto concreto en personas.", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 162, "tarea": "Gestión de líderes como agentes de cambio", "asignado": "Mariela", "prioridad": "Alta", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 163, "tarea": "Diseño de capacitaciones", "asignado": "Leandro", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 164, "tarea": "Detectar y gestionar duelos organizacionales (pérdida de prácticas históricas).", "asignado": "Mariela", "prioridad": "Media", "proyecto": "Core Recaudaciones ", "estado": "Pendiente"}, {"id": 165, "tarea": "Cargar ticket ", "asignado": "Ani", "prioridad": "Media", "proyecto": "Agente de Talento Teams", "estado": "Completado"}, {"id": 166, "tarea": "KO sponsors", "asignado": "Sofia", "prioridad": "Media", "proyecto": "Programa de Empleabildad", "estado": "Completado"}, {"id": 183, "tarea": "Comité HR", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Programa de Empleabildad", "estado": "Pendiente"}, {"id": 184, "tarea": "Comité gastos", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Programa de Empleabildad", "estado": "Pendiente"}, {"id": 185, "tarea": "Convocatoria participantes", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Programa de Empleabildad", "estado": "Pendiente"}, {"id": 186, "tarea": "Diseño programa", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Programa de Empleabildad", "estado": "En curso"}, {"id": 187, "tarea": "Reuniones áreas críticas", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Evolución PX", "estado": "En curso"}, {"id": 188, "tarea": "Seguimiento post pulso", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Evolución PX", "estado": "Pendiente"}, {"id": 189, "tarea": "Mensajes clave pre medición", "asignado": "Majo", "prioridad": "Media", "proyecto": "Evolución PX", "estado": "Pendiente"}, {"id": 190, "tarea": " Relevamiento perfiles", "asignado": "Sofía y Majo", "prioridad": "Alta", "proyecto": "Facilitadores de Cultura", "estado": "Completado"}, {"id": 191, "tarea": "Definición de equipo", "asignado": "Sofía y Majo", "prioridad": "Alta", "proyecto": "Facilitadores de Cultura", "estado": "Pendiente"}, {"id": 192, "tarea": "Definición objetivos", "asignado": "Sofía y Majo", "prioridad": "Alta", "proyecto": "Facilitadores de Cultura", "estado": "Completado"}, {"id": 193, "tarea": "Comunicación a líderes / equipo", "asignado": "Sofía y Majo", "prioridad": "Alta", "proyecto": "Facilitadores de Cultura", "estado": "Pendiente"}, {"id": 194, "tarea": "Kick Off", "asignado": "Sofía y Majo", "prioridad": "Alta", "proyecto": "Facilitadores de Cultura", "estado": "Pendiente"}, {"id": 195, "tarea": "Migración comunicaciones", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Marketing Cloud", "estado": "Completado"}, {"id": 196, "tarea": "Seguimiento con IT - permisos", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Marketing Cloud", "estado": "En curso"}, {"id": 197, "tarea": "Ajustes visualización", "asignado": "Majo y Agustín", "prioridad": "Media", "proyecto": "Marketing Cloud", "estado": "En curso"}, {"id": 198, "tarea": "Optimizacion templates", "asignado": "Majo y Agustín", "prioridad": "Alta", "proyecto": "Marketing Cloud", "estado": "En curso"}, {"id": 199, "tarea": "Armado de reportes según com", "asignado": "Agustín", "prioridad": "Media", "proyecto": "Marketing Cloud", "estado": "Pendiente"}, {"id": 200, "tarea": "Definición partner", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "Completado"}, {"id": 201, "tarea": "Referentes por eje", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "Completado"}, {"id": 202, "tarea": "Kick off", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "Completado"}, {"id": 203, "tarea": "Presentación sponsors", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "Completado"}, {"id": 204, "tarea": "Carga documentación", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "En curso"}, {"id": 205, "tarea": "Diagnóstico final", "asignado": "Sofía", "prioridad": "Media", "proyecto": "Diagnóstico Estándares B", "estado": "Pendiente"}, {"id": 206, "tarea": "Definición referentes", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Podcast", "estado": "Completado"}, {"id": 207, "tarea": "Grabación episodios", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Podcast", "estado": "Completado"}, {"id": 208, "tarea": "Edición y campaña", "asignado": "Majo", "prioridad": "Alta", "proyecto": "Podcast", "estado": "En curso"}, {"id": 209, "tarea": "Evaluación alcance interior?", "asignado": "Majo", "prioridad": "Media", "proyecto": "Podcast", "estado": "Pendiente"}, {"id": 210, "tarea": "Elección partner", "asignado": "Sofía", "prioridad": "Alta", "proyecto": "ACAP", "estado": "Completado"}, {"id": 211, "tarea": "Alianzas colegios", "asignado": "Sofía", "prioridad": "Alta", "proyecto": "ACAP", "estado": "Pendiente"}, {"id": 212, "tarea": "Contratación seguros", "asignado": "Sofía", "prioridad": "Media", "proyecto": "ACAP", "estado": "Pendiente"}, {"id": 213, "tarea": "Gestión espacios", "asignado": "Sofía", "prioridad": "Media", "proyecto": "ACAP", "estado": "Completado"}, {"id": 214, "tarea": "Refrigerios", "asignado": "Sofía", "prioridad": "Baja", "proyecto": "ACAP", "estado": "Pendiente"}, {"id": 215, "tarea": "Souvenirs", "asignado": "Sofía", "prioridad": "Media", "proyecto": "ACAP", "estado": "En curso"}]
+};
 
 function loadState(){
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
     if(raw){
-      const parsed = JSON.parse(raw);
-      state.proyectos = parsed.proyectos || [];
-      state.kpis = parsed.kpis || [];
-      state.tareas = parsed.tareas || [];
-      nextId = parsed.nextId || 1;
+      const p=JSON.parse(raw);
+      state.proyectos=p.proyectos||state.proyectos;
+      state.kpis=p.kpis||state.kpis;
+      state.tareas=p.tareas||state.tareas;
+      nextId=p.nextId||nextId;
+    } else {
+      saveState();
     }
-  } catch(e){ console.warn("Error cargando datos:", e); }
+  }catch(e){console.warn(e);}
 }
 
 function saveState(){
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      proyectos: state.proyectos,
-      kpis: state.kpis,
-      tareas: state.tareas,
-      nextId
-    }));
-    const n = document.getElementById("save-notice");
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify({proyectos:state.proyectos,kpis:state.kpis,tareas:state.tareas,nextId}));
+    const n=document.getElementById("save-notice");
     n.classList.add("show");
-    setTimeout(()=>n.classList.remove("show"), 1500);
-  } catch(e){ console.warn("Error guardando:", e); }
+    setTimeout(()=>n.classList.remove("show"),1500);
+  }catch(e){console.warn(e);}
 }
 
-// ── State ──────────────────────────────────────────────
-let nextId = 1;
-const state = { proyectos:[], kpis:[], tareas:[] };
+function exportData(){
+  const data=JSON.stringify({proyectos:state.proyectos,kpis:state.kpis,tareas:state.tareas,nextId},null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="tablero-datos.json";a.click();
+  URL.revokeObjectURL(url);
+}
 
-// ── Helpers ────────────────────────────────────────────
-function badge(t, map){ return `<span class="badge ${(map&&map[t])||'b-gray'}">${t||'—'}</span>` }
+function badge(t,map){return`<span class="badge ${(map&&map[t])||'b-gray'}">${t||'—'}</span>`}
 
 function progressBar(pct){
-  const c = pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
-  return `<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
+  const c=pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
+  return`<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
 }
 
-function calcProgreso(nombreProyecto){
-  const tareas = state.tareas.filter(t=>t.proyecto===nombreProyecto);
-  if(!tareas.length) return null;
-  const completadas = tareas.filter(t=>t.estado==="Completado").length;
-  return { pct: Math.round((completadas/tareas.length)*100), total:tareas.length, completadas };
+function calcProgreso(nombre){
+  const ts=state.tareas.filter(t=>t.proyecto===nombre);
+  if(!ts.length)return null;
+  const comp=ts.filter(t=>t.estado==="Completado").length;
+  return{pct:Math.round((comp/ts.length)*100),total:ts.length,completadas:comp};
 }
 
-function formatDate(d){
-  if(!d) return "—";
-  const [y,m,day] = d.split("-");
-  return `${day}/${m}/${y}`;
-}
+function formatDate(d){if(!d)return"—";const[y,m,day]=d.split("-");return`${day}/${m}/${y}`}
 
 function getVtoCategory(d){
-  if(!d) return null;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const vto = new Date(d); vto.setHours(0,0,0,0);
-  if(vto < today) return "vencido";
-  const tm = today.getMonth(), ty = today.getFullYear();
-  if(vto.getMonth()===tm && vto.getFullYear()===ty) return "este-mes";
-  const nm = new Date(ty, tm+1, 1), nme = new Date(ty, tm+2, 0);
-  if(vto>=nm && vto<=nme) return "proximo-mes";
-  return "otro";
+  if(!d)return null;
+  const today=new Date();today.setHours(0,0,0,0);
+  const vto=new Date(d);vto.setHours(0,0,0,0);
+  if(vto<today)return"vencido";
+  const tm=today.getMonth(),ty=today.getFullYear();
+  if(vto.getMonth()===tm&&vto.getFullYear()===ty)return"este-mes";
+  const nm=new Date(ty,tm+1,1),nme=new Date(ty,tm+2,0);
+  if(vto>=nm&&vto<=nme)return"proximo-mes";
+  return"otro";
 }
 
 function vtoLabel(d){
-  if(!d) return "—";
-  const cat = getVtoCategory(d), ds = formatDate(d);
-  if(cat==="vencido") return `<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-red" style="font-size:10px;padding:1px 6px">Vencido</span></span>`;
-  if(cat==="este-mes") return `<span style="color:var(--amber);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-amber" style="font-size:10px;padding:1px 6px">Este mes</span></span>`;
-  return `<span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)">${ds}</span>`;
+  if(!d)return"—";
+  const cat=getVtoCategory(d),ds=formatDate(d);
+  if(cat==="vencido")return`<span style="color:var(--red);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-red" style="font-size:10px;padding:1px 6px">Vencido</span></span>`;
+  if(cat==="este-mes")return`<span style="color:var(--amber);font-family:'DM Mono',monospace;font-size:12px">${ds}&nbsp;<span class="badge b-amber" style="font-size:10px;padding:1px 6px">Este mes</span></span>`;
+  return`<span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)">${ds}</span>`;
 }
 
-function noteIcon(nota, id){
-  const hasNote = nota && nota.trim().length > 0;
-  const escaped = (nota||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
-  return `<button class="note-btn ${hasNote?'has-note':''}" 
-    onmouseenter="showTooltip(event,'${escaped}')" 
-    onmouseleave="hideTooltip()"
-    onclick="editNota(${id})"
-    title="${hasNote?'Ver / editar nota':'Agregar nota'}">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M3 3h10v8H8l-5 2V3z"/>
-    </svg>
+function noteIcon(nota,id){
+  const hasNote=nota&&nota.trim().length>0;
+  const escaped=(nota||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+  return`<button class="note-btn ${hasNote?'has-note':''}" onmouseenter="showTooltip(event,'${escaped}')" onmouseleave="hideTooltip()" onclick="editNota(${id})">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10v8H8l-5 2V3z"/></svg>
   </button>`;
 }
 
-// ── Tooltip ────────────────────────────────────────────
-const tooltipEl = document.getElementById("tooltip");
-function showTooltip(e, text){
-  if(!text || !text.trim()){ tooltipEl.classList.remove("visible"); return; }
-  tooltipEl.textContent = text;
-  tooltipEl.classList.add("visible");
-  posTooltip(e);
+const tooltipEl=document.getElementById("tooltip");
+function showTooltip(e,text){
+  if(!text||!text.trim()){tooltipEl.classList.remove("visible");return;}
+  tooltipEl.textContent=text;tooltipEl.classList.add("visible");
+  tooltipEl.style.left=Math.min(e.clientX+12,window.innerWidth-280)+"px";
+  tooltipEl.style.top=(e.clientY-8)+"px";
 }
-function posTooltip(e){
-  const x = e.clientX + 12, y = e.clientY - 8;
-  tooltipEl.style.left = Math.min(x, window.innerWidth-280)+"px";
-  tooltipEl.style.top = y+"px";
-}
-function hideTooltip(){ tooltipEl.classList.remove("visible"); }
+function hideTooltip(){tooltipEl.classList.remove("visible");}
 
 function editNota(id){
-  const item = state.proyectos.find(x=>x.id===id);
-  if(!item) return;
-  const nota = prompt("Nota para: " + item.nombre, item.nota||"");
-  if(nota === null) return;
-  item.nota = nota;
-  saveState();
-  renderAll();
+  const item=state.proyectos.find(x=>x.id===id);
+  if(!item)return;
+  const nota=prompt("Nota para: "+item.nombre,item.nota||"");
+  if(nota===null)return;
+  item.nota=nota;saveState();renderAll();
 }
 
-// ── Filtros Proyectos ──────────────────────────────────
 function getFiltersP(){
-  return {
-    vertical: document.getElementById("f-vertical").value,
-    estado: document.getElementById("f-estado").value,
-    responsable: document.getElementById("f-responsable").value,
-    vto: document.getElementById("f-vto").value
+  return{
+    vertical:document.getElementById("f-vertical").value,
+    estado:document.getElementById("f-estado").value,
+    responsable:document.getElementById("f-responsable").value,
+    vto:document.getElementById("f-vto").value
   };
 }
 function applyFiltersP(){
-  const f = getFiltersP();
-  let filtered = state.proyectos.filter(p=>{
-    if(f.vertical && p.vertical!==f.vertical) return false;
-    if(f.estado && p.estado!==f.estado) return false;
-    if(f.responsable && p.resp!==f.responsable) return false;
-    if(f.vto && getVtoCategory(p.vto)!==f.vto) return false;
+  const f=getFiltersP();
+  let filtered=state.proyectos.filter(p=>{
+    if(f.vertical&&p.vertical!==f.vertical)return false;
+    if(f.estado&&p.estado!==f.estado)return false;
+    if(f.responsable&&p.resp!==f.responsable)return false;
+    if(f.vto&&getVtoCategory(p.vto)!==f.vto)return false;
     return true;
   });
   renderProyectosData(filtered);
-  const fc = document.getElementById("filter-count-p");
-  fc.textContent = filtered.length < state.proyectos.length ? `Mostrando ${filtered.length} de ${state.proyectos.length}` : "";
+  const fc=document.getElementById("filter-count-p");
+  fc.textContent=filtered.length<state.proyectos.length?`Mostrando ${filtered.length} de ${state.proyectos.length}`:"";
 }
 function resetFiltersP(){
   ["f-vertical","f-estado","f-responsable","f-vto"].forEach(id=>document.getElementById(id).value="");
   applyFiltersP();
 }
 function updateResponsableFilter(){
-  const sel = document.getElementById("f-responsable");
-  const cur = sel.value;
-  const resps = [...new Set(state.proyectos.map(p=>p.resp).filter(Boolean))].sort();
-  sel.innerHTML = `<option value="">Todos los responsables</option>` +
-    resps.map(r=>`<option ${r===cur?"selected":""}>${r}</option>`).join("");
+  const sel=document.getElementById("f-responsable");
+  const cur=sel.value;
+  const resps=[...new Set(state.proyectos.map(p=>p.resp).filter(Boolean))].sort();
+  sel.innerHTML=`<option value="">Todos los responsables</option>`+resps.map(r=>`<option ${r===cur?"selected":""}>${r}</option>`).join("");
 }
 
-// ── Filtros Tareas ─────────────────────────────────────
 function getFiltersT(){
-  return {
-    proyecto: document.getElementById("ft-proyecto").value,
-    responsable: document.getElementById("ft-responsable").value,
-    estado: document.getElementById("ft-estado").value,
-    prioridad: document.getElementById("ft-prioridad").value
+  return{
+    proyecto:document.getElementById("ft-proyecto").value,
+    responsable:document.getElementById("ft-responsable").value,
+    estado:document.getElementById("ft-estado").value,
+    prioridad:document.getElementById("ft-prioridad").value
   };
 }
 function applyFiltersT(){
-  const f = getFiltersT();
-  let filtered = state.tareas.filter(t=>{
-    if(f.proyecto && t.proyecto!==f.proyecto) return false;
-    if(f.responsable && t.asignado!==f.responsable) return false;
-    if(f.estado && t.estado!==f.estado) return false;
-    if(f.prioridad && t.prioridad!==f.prioridad) return false;
+  const f=getFiltersT();
+  let filtered=state.tareas.filter(t=>{
+    if(f.proyecto&&t.proyecto!==f.proyecto)return false;
+    if(f.responsable&&t.asignado!==f.responsable)return false;
+    if(f.estado&&t.estado!==f.estado)return false;
+    if(f.prioridad&&t.prioridad!==f.prioridad)return false;
     return true;
   });
   renderTareasData(filtered);
-  const fc = document.getElementById("filter-count-t");
-  fc.textContent = filtered.length < state.tareas.length ? `Mostrando ${filtered.length} de ${state.tareas.length}` : "";
+  const fc=document.getElementById("filter-count-t");
+  fc.textContent=filtered.length<state.tareas.length?`Mostrando ${filtered.length} de ${state.tareas.length}`:"";
 }
 function resetFiltersT(){
   ["ft-proyecto","ft-responsable","ft-estado","ft-prioridad"].forEach(id=>document.getElementById(id).value="");
   applyFiltersT();
 }
 function updateTareaFilters(){
-  const sp = document.getElementById("ft-proyecto");
-  const sr = document.getElementById("ft-responsable");
-  const cp = sp.value, cr = sr.value;
-  const proyectos = [...new Set(state.tareas.map(t=>t.proyecto).filter(Boolean))].sort();
-  sp.innerHTML = `<option value="">Todos los proyectos</option>` +
-    proyectos.map(p=>`<option ${p===cp?"selected":""}>${p}</option>`).join("");
-  const resps = [...new Set(state.tareas.map(t=>t.asignado).filter(Boolean))].sort();
-  sr.innerHTML = `<option value="">Todos los responsables</option>` +
-    resps.map(r=>`<option ${r===cr?"selected":""}>${r}</option>`).join("");
+  const sp=document.getElementById("ft-proyecto"),sr=document.getElementById("ft-responsable");
+  const cp=sp.value,cr=sr.value;
+  const proyectos=[...new Set(state.tareas.map(t=>t.proyecto).filter(Boolean))].sort();
+  sp.innerHTML=`<option value="">Todos los proyectos</option>`+proyectos.map(p=>`<option ${p===cp?"selected":""}>${p}</option>`).join("");
+  const resps=[...new Set(state.tareas.map(t=>t.asignado).filter(Boolean))].sort();
+  sr.innerHTML=`<option value="">Todos los responsables</option>`+resps.map(r=>`<option ${r===cr?"selected":""}>${r}</option>`).join("");
 }
 
-// ── Render Proyectos ───────────────────────────────────
 function renderProyectosData(list){
-  const tb = document.getElementById("tbody-proyectos");
-  if(!list.length){
-    tb.innerHTML=`<tr class="empty-row"><td colspan="8">${state.proyectos.length?'No hay proyectos que coincidan con los filtros':'No hay proyectos cargados aún'}</td></tr>`;
-    return;
-  }
-  tb.innerHTML = list.map(p=>{
-    const prog = calcProgreso(p.nombre);
-    const progCell = prog!==null
-      ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total}</span></div>`
-      : `<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
-    return `<tr>
+  const tb=document.getElementById("tbody-proyectos");
+  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="8">${state.proyectos.length?'No hay proyectos que coincidan':'No hay proyectos cargados aún'}</td></tr>`;return;}
+  tb.innerHTML=list.map(p=>{
+    const prog=calcProgreso(p.nombre);
+    const progCell=prog!==null
+      ?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total}</span></div>`
+      :`<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
+    return`<tr>
       <td style="font-weight:400">${p.nombre}</td>
       <td>${badge(p.vertical,VERTICAL_COLORS)}</td>
       <td style="color:var(--text-2)">${p.resp||'—'}</td>
@@ -473,75 +410,45 @@ function renderProyectosData(list){
     </tr>`;
   }).join("");
 }
-function renderProyectos(){
-  updateResponsableFilter();
-  applyFiltersP();
-}
+function renderProyectos(){updateResponsableFilter();applyFiltersP();}
 
-// ── Render KPIs agrupados por proyecto ────────────────
 function renderKPIs(){
-  const body = document.getElementById("kpi-body");
-  if(!state.kpis.length){
-    body.innerHTML=`<div class="kpi-empty">No hay KPIs cargados aún. Usá el botón para agregar.</div>`;
-    return;
-  }
-  // Agrupar
-  const groups = {};
-  state.kpis.forEach(k=>{
-    const key = k.proyecto||"__sin_proyecto__";
-    if(!groups[key]) groups[key]=[];
-    groups[key].push(k);
-  });
-  let html = "";
-  Object.keys(groups).sort((a,b)=>{
-    if(a==="__sin_proyecto__") return 1;
-    if(b==="__sin_proyecto__") return -1;
-    return a.localeCompare(b);
-  }).forEach(key=>{
-    const items = groups[key];
-    const proj = key==="__sin_proyecto__" ? null : state.proyectos.find(p=>p.nombre===key);
-    const vColor = proj ? (VERTICAL_COLORS[proj.vertical]||"b-gray") : "";
-    const titleHtml = key==="__sin_proyecto__"
-      ? `<span class="kpi-no-project">Sin proyecto asignado</span>`
-      : `${key}${proj?` <span class="badge ${vColor}" style="font-size:10px">${proj.vertical}</span>`:''}`;
-    html += `<div class="kpi-project-block">
+  const body=document.getElementById("kpi-body");
+  if(!state.kpis.length){body.innerHTML=`<div class="kpi-empty">No hay KPIs cargados aún.</div>`;return;}
+  const groups={};
+  state.kpis.forEach(k=>{const key=k.proyecto||"__sin__";if(!groups[key])groups[key]=[];groups[key].push(k);});
+  let html="";
+  Object.keys(groups).sort((a,b)=>{if(a==="__sin__")return 1;if(b==="__sin__")return -1;return a.localeCompare(b);}).forEach(key=>{
+    const items=groups[key];
+    const proj=key==="__sin__"?null:state.proyectos.find(p=>p.nombre===key);
+    const vColor=proj?(VERTICAL_COLORS[proj.vertical]||"b-gray"):"";
+    const titleHtml=key==="__sin__"
+      ?`<span style="font-style:italic;color:var(--text-3)">Sin proyecto asignado</span>`
+      :`${key}${proj?` <span class="badge ${vColor}" style="font-size:10px">${proj.vertical}</span>`:''}`;
+    html+=`<div class="kpi-project-block">
       <div class="kpi-project-title">${titleHtml}</div>
-      <table>
-        <thead><tr><th>Indicador</th><th>Meta</th><th>Actual</th><th>Período</th><th>Estado</th><th></th></tr></thead>
-        <tbody>
-          ${items.map(k=>{
-            const pct = k.meta ? Math.min(Math.round((k.actual/k.meta)*100),100) : 0;
-            const c = pct>=100?"p-ok":pct>=85?"p-warn":"p-danger";
-            return `<tr>
-              <td>${k.indicador||'—'}</td>
-              <td style="font-family:'DM Mono',monospace">${k.meta}</td>
-              <td>
-                <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-family:'DM Mono',monospace;font-weight:500">${k.actual}</span>
-                  <div class="progress-track" style="width:60px"><div class="progress-fill ${c}" style="width:${pct}%"></div></div>
-                  <span style="font-size:10px;color:var(--text-3)">${pct}%</span>
-                </div>
-              </td>
-              <td style="color:var(--text-3);font-size:12px">${k.periodo||'—'}</td>
-              <td>${badge(k.estado,estadoC)}</td>
-              <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td>
-            </tr>`;
-          }).join("")}
-        </tbody>
-      </table>
+      <table><thead><tr><th>Indicador</th><th>Meta</th><th>Actual</th><th>Período</th><th>Estado</th><th></th></tr></thead>
+      <tbody>${items.map(k=>{
+        const pct=k.meta?Math.min(Math.round((k.actual/k.meta)*100),100):0;
+        const c=pct>=100?"p-ok":pct>=85?"p-warn":"p-danger";
+        return`<tr>
+          <td>${k.indicador||'—'}</td>
+          <td style="font-family:'DM Mono',monospace">${k.meta}</td>
+          <td><div style="display:flex;align-items:center;gap:8px"><span style="font-family:'DM Mono',monospace;font-weight:500">${k.actual}</span><div class="progress-track" style="width:60px"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span style="font-size:10px;color:var(--text-3)">${pct}%</span></div></td>
+          <td style="color:var(--text-3);font-size:12px">${k.periodo||'—'}</td>
+          <td>${badge(k.estado,estadoC)}</td>
+          <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td>
+        </tr>`;
+      }).join("")}</tbody></table>
     </div>`;
   });
-  body.innerHTML = html;
+  body.innerHTML=html;
 }
 
-// ── Render Tareas ──────────────────────────────────────
 function renderTareasData(list){
-  const tb = document.getElementById("tbody-tareas");
-  if(!list.length){
-    tb.innerHTML=`<tr class="empty-row"><td colspan="6">${state.tareas.length?'No hay tareas que coincidan con los filtros':'No hay tareas cargadas aún'}</td></tr>`;
-    return;
-  }
-  tb.innerHTML = list.map(t=>`
+  const tb=document.getElementById("tbody-tareas");
+  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="6">${state.tareas.length?'No hay tareas que coincidan':'No hay tareas cargadas aún'}</td></tr>`;return;}
+  tb.innerHTML=list.map(t=>`
     <tr>
       <td>${t.tarea||'—'}</td>
       <td style="color:var(--text-2)">${t.asignado||'—'}</td>
@@ -551,51 +458,42 @@ function renderTareasData(list){
       <td><button class="edit-btn" onclick="editRow('tareas',${t.id})">editar</button></td>
     </tr>`).join("");
 }
-function renderTareas(){
-  updateTareaFilters();
-  applyFiltersT();
-}
+function renderTareas(){updateTareaFilters();applyFiltersT();}
 
-// ── Render Metrics ─────────────────────────────────────
 function renderMetrics(){
-  const activos = state.proyectos.filter(p=>p.estado==="En curso").length;
-  const riesgo = state.proyectos.filter(p=>p.estado==="En riesgo").length;
-  const total = state.proyectos.length;
-  const tareasPend = state.tareas.filter(t=>t.estado==="Pendiente").length;
-  const kpiOk = state.kpis.filter(k=>k.estado==="OK").length;
-  const kpiTotal = state.kpis.length;
+  const activos=state.proyectos.filter(p=>p.estado==="En curso").length;
+  const riesgo=state.proyectos.filter(p=>p.estado==="En riesgo").length;
+  const total=state.proyectos.length;
+  const tareasPend=state.tareas.filter(t=>t.estado==="Pendiente").length;
+  const kpiOk=state.kpis.filter(k=>k.estado==="OK").length;
+  const kpiTotal=state.kpis.length;
   document.getElementById("metrics-grid").innerHTML=`
     <div class="metric"><div class="metric-label">Proyectos activos</div><div class="metric-value">${activos}</div><div class="metric-sub"><span class="metric-dot" style="background:var(--red)"></span>${riesgo} en riesgo · ${total} total</div></div>
     <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${kpiTotal}</span></div><div class="metric-sub">Indicadores del período</div></div>
     <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-value">${tareasPend}</div><div class="metric-sub">De ${state.tareas.length} tareas totales</div></div>`;
 }
 
-function renderAll(){ renderMetrics(); renderProyectos(); renderKPIs(); renderTareas(); }
+function renderAll(){renderMetrics();renderProyectos();renderKPIs();renderTareas();}
 
-// ── Tabs ───────────────────────────────────────────────
 function showTab(name){
-  ["proyectos","kpis","tareas"].forEach(t=>{
-    document.getElementById("tab-"+t).style.display = t===name?"block":"none";
-  });
+  ["proyectos","kpis","tareas"].forEach(t=>document.getElementById("tab-"+t).style.display=t===name?"block":"none");
 }
 function setActive(el){
   document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
   el.classList.add("active");
 }
 
-// ── Edit / Save / Delete ───────────────────────────────
 function proyectosOptions(selected){
-  return `<option value="">-- Sin proyecto --</option>`+
-    state.proyectos.map(p=>`<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
+  return`<option value="">-- Sin proyecto --</option>`+state.proyectos.map(p=>`<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
 }
 
-function editRow(type, id){
-  const item = state[type].find(x=>x.id===id);
-  if(!item) return;
-  let form="", cols=7;
+function editRow(type,id){
+  const item=state[type].find(x=>x.id===id);
+  if(!item)return;
+  let form="",cols=7;
   if(type==="proyectos"){
-    const vOpts = VERTICALES.map(v=>`<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
-    form=`<input type="text" id="ef-nombre" value="${item.nombre||''}" style="min-width:140px" placeholder="Nombre del proyecto">
+    const vOpts=VERTICALES.map(v=>`<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
+    form=`<input type="text" id="ef-nombre" value="${(item.nombre||'').replace(/"/g,'&quot;')}" style="min-width:140px" placeholder="Nombre">
     <select id="ef-vertical"><option value="">— Vertical —</option>${vOpts}</select>
     <select id="ef-estado">
       <option ${item.estado==="En curso"?"selected":""}>En curso</option>
@@ -603,20 +501,20 @@ function editRow(type, id){
       <option ${item.estado==="En riesgo"?"selected":""}>En riesgo</option>
       <option ${item.estado==="Pausado"?"selected":""}>Pausado</option>
     </select>
-    <input type="text" id="ef-resp" value="${item.resp||''}" style="width:100px" placeholder="Responsable">
+    <input type="text" id="ef-resp" value="${(item.resp||'').replace(/"/g,'&quot;')}" style="width:100px" placeholder="Responsable">
     <input type="text" id="ef-vto" value="${item.vto||''}" style="width:110px" placeholder="YYYY-MM-DD">
-    <textarea id="ef-nota" placeholder="Nota (opcional)">${item.nota||''}</textarea>`;
+    <textarea id="ef-nota" placeholder="Nota">${item.nota||''}</textarea>`;
   } else if(type==="kpis"){
     cols=5;
-    form=`<input type="text" id="ef-indicador" value="${item.indicador||''}" style="width:140px" placeholder="Indicador">
+    form=`<input type="text" id="ef-indicador" value="${(item.indicador||'').replace(/"/g,'&quot;')}" style="width:160px" placeholder="Indicador">
     <select id="ef-proyecto-kpi">${proyectosOptions(item.proyecto)}</select>
     <input type="number" id="ef-meta" value="${item.meta||''}" style="width:65px" placeholder="Meta">
     <input type="number" id="ef-actual" value="${item.actual||''}" style="width:65px" placeholder="Actual">
     <input type="text" id="ef-periodo" value="${item.periodo||''}" style="width:90px" placeholder="Período">`;
   } else if(type==="tareas"){
     cols=5;
-    form=`<input type="text" id="ef-tarea" value="${item.tarea||''}" style="min-width:140px" placeholder="Tarea">
-    <input type="text" id="ef-asignado" value="${item.asignado||''}" style="width:100px" placeholder="Asignado a">
+    form=`<input type="text" id="ef-tarea" value="${(item.tarea||'').replace(/"/g,'&quot;')}" style="min-width:140px" placeholder="Tarea">
+    <input type="text" id="ef-asignado" value="${(item.asignado||'').replace(/"/g,'&quot;')}" style="width:100px" placeholder="Asignado a">
     <select id="ef-proyecto">${proyectosOptions(item.proyecto)}</select>
     <select id="ef-estado">
       <option ${item.estado==="Pendiente"?"selected":""}>Pendiente</option>
@@ -630,98 +528,73 @@ function editRow(type, id){
     </select>`;
   }
 
-  const tbody = document.getElementById("tbody-"+type);
-  if(!tbody) { renderKPIsEdit(type, id, item, form, cols); return; }
-  const idx = state[type].findIndex(x=>x.id===id);
-  const rows = tbody.querySelectorAll("tr");
-  if(rows[idx]) rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
+  if(type==="kpis"){
+    const allBtns=document.querySelectorAll("#kpi-body .edit-btn");
+    let targetRow=null;
+    allBtns.forEach(btn=>{if(btn.getAttribute("onclick")===`editRow('kpis',${id})`)targetRow=btn.closest("tr");});
+    if(targetRow)targetRow.innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
+      <button class="save-btn" onclick="saveRow('kpis',${id})">Guardar</button>
+      <button class="del-btn" onclick="deleteRow('kpis',${id})">Eliminar</button>
+    </div></td><td></td>`;
+    return;
+  }
+  const tbody=document.getElementById("tbody-"+type);
+  const idx=state[type].findIndex(x=>x.id===id);
+  const rows=tbody.querySelectorAll("tr");
+  if(rows[idx])rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
     <button class="save-btn" onclick="saveRow('${type}',${id})">Guardar</button>
     <button class="del-btn" onclick="deleteRow('${type}',${id})">Eliminar</button>
   </div></td><td></td>`;
 }
 
-function renderKPIsEdit(type, id, item, form, cols){
-  // Para KPIs que usan renderKPIs (no tbody directo), re-render y luego busca el botón editar
-  // Se maneja inline a través de la tabla dentro de kpi-body
-  const allRows = document.querySelectorAll("#kpi-body tbody tr");
-  let targetRow = null;
-  allRows.forEach(row=>{
-    const btn = row.querySelector(".edit-btn");
-    if(btn && btn.getAttribute("onclick")===`editRow('kpis',${id})`){ targetRow=row; }
-  });
-  if(targetRow) targetRow.innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
-    <button class="save-btn" onclick="saveRow('kpis',${id})">Guardar</button>
-    <button class="del-btn" onclick="deleteRow('kpis',${id})">Eliminar</button>
-  </div></td><td></td>`;
-}
-
-function saveRow(type, id){
-  const item = state[type].find(x=>x.id===id);
-  if(!item) return;
+function saveRow(type,id){
+  const item=state[type].find(x=>x.id===id);
+  if(!item)return;
   if(type==="proyectos"){
-    const oldNombre = item.nombre;
-    item.nombre = document.getElementById("ef-nombre").value||item.nombre;
-    item.vertical = document.getElementById("ef-vertical").value;
-    item.resp = document.getElementById("ef-resp").value;
-    item.estado = document.getElementById("ef-estado").value;
-    item.vto = document.getElementById("ef-vto").value;
-    item.nota = document.getElementById("ef-nota").value;
-    if(oldNombre!==item.nombre){
-      state.tareas.forEach(t=>{if(t.proyecto===oldNombre)t.proyecto=item.nombre;});
-      state.kpis.forEach(k=>{if(k.proyecto===oldNombre)k.proyecto=item.nombre;});
+    const old=item.nombre;
+    item.nombre=document.getElementById("ef-nombre").value||item.nombre;
+    item.vertical=document.getElementById("ef-vertical").value;
+    item.resp=document.getElementById("ef-resp").value;
+    item.estado=document.getElementById("ef-estado").value;
+    item.vto=document.getElementById("ef-vto").value;
+    item.nota=document.getElementById("ef-nota").value;
+    if(old!==item.nombre){
+      state.tareas.forEach(t=>{if(t.proyecto===old)t.proyecto=item.nombre;});
+      state.kpis.forEach(k=>{if(k.proyecto===old)k.proyecto=item.nombre;});
     }
   } else if(type==="kpis"){
-    item.indicador = document.getElementById("ef-indicador").value||item.indicador;
-    item.proyecto = document.getElementById("ef-proyecto-kpi").value;
-    item.meta = parseFloat(document.getElementById("ef-meta").value)||item.meta;
-    item.actual = parseFloat(document.getElementById("ef-actual").value)||0;
-    item.periodo = document.getElementById("ef-periodo").value||item.periodo;
-    item.estado = item.actual>=item.meta?"OK":item.actual>=item.meta*0.85?"Riesgo":"Crítico";
+    item.indicador=document.getElementById("ef-indicador").value||item.indicador;
+    item.proyecto=document.getElementById("ef-proyecto-kpi").value;
+    item.meta=parseFloat(document.getElementById("ef-meta").value)||item.meta;
+    item.actual=parseFloat(document.getElementById("ef-actual").value)||0;
+    item.periodo=document.getElementById("ef-periodo").value||item.periodo;
+    item.estado=item.actual>=item.meta?"OK":item.actual>=item.meta*0.85?"Riesgo":"Crítico";
   } else if(type==="tareas"){
-    item.tarea = document.getElementById("ef-tarea").value||item.tarea;
-    item.asignado = document.getElementById("ef-asignado").value;
-    item.proyecto = document.getElementById("ef-proyecto").value;
-    item.estado = document.getElementById("ef-estado").value;
-    item.prioridad = document.getElementById("ef-prio").value;
+    item.tarea=document.getElementById("ef-tarea").value||item.tarea;
+    item.asignado=document.getElementById("ef-asignado").value;
+    item.proyecto=document.getElementById("ef-proyecto").value;
+    item.estado=document.getElementById("ef-estado").value;
+    item.prioridad=document.getElementById("ef-prio").value;
   }
-  saveState();
-  renderAll();
+  saveState();renderAll();
 }
 
-function deleteRow(type, id){
-  state[type] = state[type].filter(x=>x.id!==id);
-  saveState();
-  renderAll();
+function deleteRow(type,id){
+  state[type]=state[type].filter(x=>x.id!==id);
+  saveState();renderAll();
 }
 
 function addRow(type){
-  const id = nextId++;
-  if(type==="proyectos") state.proyectos.push({id,nombre:"",vertical:"",resp:"",estado:"En curso",vto:"",nota:""});
-  else if(type==="kpis") state.kpis.push({id,indicador:"",proyecto:"",meta:100,actual:0,periodo:"",estado:"Riesgo"});
-  else if(type==="tareas") state.tareas.push({id,tarea:"",asignado:"",prioridad:"Media",proyecto:"",estado:"Pendiente"});
-  saveState();
-  renderAll();
+  const id=nextId++;
+  if(type==="proyectos")state.proyectos.push({id,nombre:"",vertical:"",resp:"",estado:"En curso",vto:"",nota:""});
+  else if(type==="kpis")state.kpis.push({id,indicador:"",proyecto:"",meta:100,actual:0,periodo:"",estado:"Riesgo"});
+  else if(type==="tareas")state.tareas.push({id,tarea:"",asignado:"",prioridad:"Media",proyecto:"",estado:"Pendiente"});
+  saveState();renderAll();
   setTimeout(()=>editRow(type,id),80);
 }
 
 function updateClock(){
-  document.getElementById("clock").textContent = new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
-}
-
-function exportData(){
-  const data = JSON.stringify({
-    proyectos: state.proyectos,
-    kpis: state.kpis,
-    tareas: state.tareas,
-    nextId
-  }, null, 2);
-  const blob = new Blob([data], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tablero-datos.json";
-  a.click();
-  URL.revokeObjectURL(url);
+  document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
 }
 
 loadState();
