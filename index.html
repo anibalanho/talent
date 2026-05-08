@@ -356,11 +356,38 @@ function calcProgreso(nombre){
 }
 
 function getSemaforo(nombre){
+  const proj=state.proyectos.find(p=>p.nombre===nombre);
   const prog=calcProgreso(nombre);
-  if(!prog)return"gris";
-  if(prog.pct>60)return"verde";
-  if(prog.pct>=30)return"amarillo";
-  return"rojo";
+
+  // Semaforo por tareas
+  let semTareas="gris";
+  if(prog){
+    if(prog.pct>60)semTareas="verde";
+    else if(prog.pct>=30)semTareas="amarillo";
+    else semTareas="rojo";
+  }
+
+  // Semaforo por fecha
+  let semFecha="gris";
+  if(proj&&proj.vto){
+    const cat=getVtoCategory(proj.vto);
+    if(cat==="vencido"){
+      semFecha="rojo";
+    } else if(cat==="este-mes"){
+      const pct=prog?prog.pct:0;
+      semFecha=pct>=80?"verde":"amarillo";
+    } else if(cat==="proximo-mes"){
+      const pct=prog?prog.pct:0;
+      semFecha=pct>=50?"verde":"amarillo";
+    } else {
+      semFecha=semTareas==="gris"?"gris":"verde";
+    }
+  }
+
+  // El más crítico gana
+  const rank={"rojo":3,"amarillo":2,"verde":1,"gris":0};
+  const semFinal=rank[semTareas]>=rank[semFecha]?semTareas:semFecha;
+  return semFinal;
 }
 
 function semaforoCell(nombre){
