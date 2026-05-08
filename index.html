@@ -143,6 +143,10 @@ input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{bord
     </div>
     <div class="sidebar-footer">
       <div class="clock-display" id="clock">--/--/---- --:--</div>
+      <button onclick="exportData()" style="margin-top:10px;width:100%;font-size:11px;font-family:'DM Sans',sans-serif;padding:6px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:none;color:var(--text-2);cursor:pointer;text-align:left;display:flex;align-items:center;gap:6px">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
+        Exportar datos
+      </button>
     </div>
   </aside>
 
@@ -702,6 +706,22 @@ function addRow(type){
 
 function updateClock(){
   document.getElementById("clock").textContent = new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+}
+
+function exportData(){
+  const data = JSON.stringify({
+    proyectos: state.proyectos,
+    kpis: state.kpis,
+    tareas: state.tareas,
+    nextId
+  }, null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tablero-datos.json";
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 loadState();
