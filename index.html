@@ -38,30 +38,66 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .page-header{margin-bottom:28px}
 .page-title{font-size:22px;font-weight:400;letter-spacing:-0.02em}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+/* EJECUTIVA */
+.exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.exec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.exec-card.accent{border-left:3px solid var(--text)}
+.exec-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.exec-value{font-size:28px;font-weight:300;letter-spacing:-0.03em;color:var(--text)}
+.exec-sub{font-size:11px;color:var(--text-3);margin-top:4px}
+.exec-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.exec-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.exec-panel-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:16px}
+.vertical-bar-wrap{display:flex;flex-direction:column;gap:10px}
+.vertical-bar-item{display:flex;align-items:center;gap:10px}
+.vertical-bar-label{font-size:12px;color:var(--text-2);min-width:90px}
+.vertical-bar-track{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.vertical-bar-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.vertical-bar-count{font-size:11px;color:var(--text-3);min-width:20px;text-align:right;font-family:'DM Mono',monospace}
+.semaforo-legend{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.sem-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2)}
+.sem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.exec-attn{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.attn-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.attn-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);background:var(--surface2);font-size:13px}
+.attn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.attn-name{flex:1;font-weight:400}
+.attn-resp{font-size:11px;color:var(--text-3)}
+.attn-pct{font-size:11px;font-family:'DM Mono',monospace;color:var(--text-3)}
+
+/* SEMAFORO EN TABLA */
+.sem-circle{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0}
+.sem-verde{background:#2D6A4F}
+.sem-amarillo{background:#E09A20}
+.sem-rojo{background:#A32D2D}
+.sem-gris{background:#C0BDB8}
+.sem-cell{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2)}
+
+/* METRICS */
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
 .metric-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
 .metric-value{font-size:26px;font-weight:300;letter-spacing:-0.03em}
 .metric-sub{font-size:11px;color:var(--text-3);margin-top:5px}
 .metric-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
 .filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .filter-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px}
 .filter-select{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;outline:none}
-.filter-select:focus{border-color:var(--text)}
 .filter-reset{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:none;background:none;color:var(--text-3);cursor:pointer;border-radius:var(--radius-sm)}
 .filter-reset:hover{background:var(--surface2);color:var(--text)}
-.filter-count{font-size:11px;color:var(--text-3);margin-left:4px}
+.filter-count{font-size:11px;color:var(--text-3)}
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
 .table-title{font-size:13px;font-weight:500}
-.add-btn{font-size:12px;color:var(--blue);background:var(--blue-bg);border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
-.add-btn:hover{opacity:0.8}
+.add-btn{font-size:12px;color:var(--blue);background:var(--blue-bg);border:none;border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif}
 table{width:100%;border-collapse:collapse}
 thead th{font-size:11px;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;padding:10px 20px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2)}
 tbody td{padding:11px 20px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:#FAFAF8}
-.empty-row td{text-align:center;color:var(--text-3);font-size:13px;padding:32px 20px}
+.empty-row td{text-align:center;color:var(--text-3);padding:32px 20px}
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
 .b-green{background:var(--green-bg);color:var(--green-text)}
 .b-amber{background:var(--amber-bg);color:var(--amber-text)}
@@ -78,14 +114,14 @@ tbody tr:hover td{background:#FAFAF8}
 .p-ok{background:var(--green)}.p-warn{background:#E09A20}.p-danger{background:var(--red)}
 .progress-pct{font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;min-width:30px}
 .task-count{font-size:10px;color:var(--text-3)}
-.note-btn{background:none;border:none;cursor:pointer;padding:3px;border-radius:4px;color:var(--text-3);position:relative;display:inline-flex;align-items:center}
+.note-btn{background:none;border:none;cursor:pointer;padding:3px;border-radius:4px;color:var(--text-3);display:inline-flex;align-items:center}
 .note-btn:hover{color:var(--text);background:var(--surface2)}
 .note-btn svg{width:15px;height:15px}
 .note-btn.has-note{color:var(--amber)}
 .tooltip{position:fixed;background:var(--text);color:#fff;font-size:12px;padding:8px 12px;border-radius:var(--radius-sm);max-width:260px;line-height:1.5;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:pre-wrap;word-break:break-word}
 .tooltip.visible{opacity:1}
 .kpi-project-block{margin-bottom:0}
-.kpi-project-title{font-size:13px;font-weight:500;color:var(--text);padding:12px 20px;background:var(--surface2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.kpi-project-title{font-size:13px;font-weight:500;padding:12px 20px;background:var(--surface2);border-bottom:1px solid var(--border);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .kpi-project-title:first-child{border-top:none}
 .kpi-empty{padding:24px 20px;text-align:center;color:var(--text-3);font-size:13px}
 .edit-cell{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
@@ -99,8 +135,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
 .edit-btn:hover{border-color:var(--border-strong);color:var(--text)}
 .save-notice{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;font-size:12px;padding:8px 16px;border-radius:var(--radius-sm);opacity:0;transition:opacity 0.3s;z-index:9999;pointer-events:none}
 .save-notice.show{opacity:1}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:20px}.metrics{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.metrics{grid-template-columns:1fr}}
+@media(max-width:1100px){.exec-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:20px}.metrics{grid-template-columns:repeat(2,1fr)}.exec-row{grid-template-columns:1fr}}
+@media(max-width:600px){.metrics{grid-template-columns:1fr}.exec-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -111,7 +148,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
       <div class="logo-sub">Panel de operaciones</div>
     </div>
     <span class="nav-section">Vistas</span>
-    <div class="nav-item active" onclick="showTab('proyectos');setActive(this)">
+    <div class="nav-item active" onclick="showTab('ejecutiva');setActive(this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><polyline points="8,5 8,8 10.5,8"/></svg>
+      Vista ejecutiva
+    </div>
+    <div class="nav-item" onclick="showTab('proyectos');setActive(this)">
       <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
       Proyectos
     </div>
@@ -131,13 +172,52 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
       </button>
     </div>
   </aside>
+
   <main class="main">
-    <div class="page-header">
-      <div class="page-title">Tablero de proyectos</div>
-      <div class="page-sub">Monitoreo de iniciativas y procesos del área</div>
+
+    <!-- VISTA EJECUTIVA -->
+    <div id="tab-ejecutiva">
+      <div class="page-header">
+        <div class="page-title">Vista ejecutiva</div>
+        <div class="page-sub">Resumen de estado del área para dirección</div>
+      </div>
+      <div class="exec-grid" id="exec-cards"></div>
+      <div class="exec-row">
+        <div class="exec-panel">
+          <div class="exec-panel-title">Proyectos por vertical</div>
+          <div class="vertical-bar-wrap" id="exec-vertical-bars"></div>
+        </div>
+        <div class="exec-panel">
+          <div class="exec-panel-title">Distribución por semáforo</div>
+          <div class="semaforo-legend">
+            <div class="sem-item"><div class="sem-dot" style="background:#2D6A4F"></div>Encaminado (&gt;60%)</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#E09A20"></div>En seguimiento (30–60%)</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#A32D2D"></div>Requiere atención (&lt;30%)</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#C0BDB8"></div>Sin tareas aún</div>
+          </div>
+          <div id="exec-semaforo-bars"></div>
+        </div>
+      </div>
+      <div class="exec-attn">
+        <div style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3)">Proyectos que requieren atención</div>
+        <div class="attn-list" id="exec-attn-list"></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><span class="table-title">Resumen por proyecto</span></div>
+        <table>
+          <thead><tr><th></th><th>Proyecto</th><th>Vertical</th><th>Responsable</th><th>Avance</th><th>Vencimiento</th><th>Estado</th></tr></thead>
+          <tbody id="tbody-ejecutiva"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="metrics" id="metrics-grid"></div>
-    <div id="tab-proyectos">
+
+    <!-- PROYECTOS -->
+    <div id="tab-proyectos" style="display:none">
+      <div class="page-header">
+        <div class="page-title">Tablero de proyectos</div>
+        <div class="page-sub">Monitoreo de iniciativas y procesos del área</div>
+      </div>
+      <div class="metrics" id="metrics-grid"></div>
       <div class="filters">
         <span class="filter-label">Filtrar</span>
         <select class="filter-select" id="f-vertical" onchange="applyFiltersP()">
@@ -158,6 +238,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
           <option value="este-mes">Este mes</option>
           <option value="proximo-mes">Próximo mes</option>
         </select>
+        <select class="filter-select" id="f-semaforo" onchange="applyFiltersP()">
+          <option value="">Todos los semáforos</option>
+          <option value="verde">🟢 Encaminado</option>
+          <option value="amarillo">🟡 En seguimiento</option>
+          <option value="rojo">🔴 Requiere atención</option>
+          <option value="gris">⚪ Sin tareas</option>
+        </select>
         <button class="filter-reset" onclick="resetFiltersP()">Limpiar</button>
         <span class="filter-count" id="filter-count-p"></span>
       </div>
@@ -167,29 +254,37 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
           <button class="add-btn" onclick="addRow('proyectos')">+ Agregar proyecto</button>
         </div>
         <table>
-          <thead><tr><th>Proyecto</th><th>Vertical</th><th>Responsable</th><th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th>Notas</th><th></th></tr></thead>
+          <thead><tr><th></th><th>Proyecto</th><th>Vertical</th><th>Responsable</th><th>Estado</th><th>Progreso (tareas)</th><th>Vencimiento</th><th>Notas</th><th></th></tr></thead>
           <tbody id="tbody-proyectos"></tbody>
         </table>
       </div>
     </div>
+
+    <!-- KPIs -->
     <div id="tab-kpis" style="display:none">
+      <div class="page-header">
+        <div class="page-title">KPIs por proyecto</div>
+        <div class="page-sub">Indicadores agrupados por iniciativa</div>
+      </div>
       <div class="table-wrap">
         <div class="table-header">
-          <span class="table-title">KPIs por proyecto</span>
+          <span class="table-title">KPIs</span>
           <button class="add-btn" onclick="addRow('kpis')">+ Agregar KPI</button>
         </div>
         <div id="kpi-body"></div>
       </div>
     </div>
+
+    <!-- TAREAS -->
     <div id="tab-tareas" style="display:none">
+      <div class="page-header">
+        <div class="page-title">Tareas del equipo</div>
+        <div class="page-sub">Seguimiento de actividades por proyecto</div>
+      </div>
       <div class="filters">
         <span class="filter-label">Filtrar</span>
-        <select class="filter-select" id="ft-proyecto" onchange="applyFiltersT()">
-          <option value="">Todos los proyectos</option>
-        </select>
-        <select class="filter-select" id="ft-responsable" onchange="applyFiltersT()">
-          <option value="">Todos los responsables</option>
-        </select>
+        <select class="filter-select" id="ft-proyecto" onchange="applyFiltersT()"><option value="">Todos los proyectos</option></select>
+        <select class="filter-select" id="ft-responsable" onchange="applyFiltersT()"><option value="">Todos los responsables</option></select>
         <select class="filter-select" id="ft-estado" onchange="applyFiltersT()">
           <option value="">Todos los estados</option>
           <option>Pendiente</option><option>En curso</option><option>Completado</option>
@@ -203,7 +298,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
       </div>
       <div class="table-wrap">
         <div class="table-header">
-          <span class="table-title">Tareas del equipo</span>
+          <span class="table-title">Tareas</span>
           <button class="add-btn" onclick="addRow('tareas')">+ Agregar tarea</button>
         </div>
         <table>
@@ -216,9 +311,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--text)}
 </div>
 <div class="tooltip" id="tooltip"></div>
 <div class="save-notice" id="save-notice">Guardado ✓</div>
+
 <script>
 const VERTICALES=["Atracción","Desarrollo","Aprendizaje","Talento","Cultura","Comunicación"];
 const VERTICAL_COLORS={"Atracción":"b-blue","Desarrollo":"b-purple","Aprendizaje":"b-teal","Talento":"b-coral","Cultura":"b-pink","Comunicación":"b-amber"};
+const VERTICAL_HEX={"Atracción":"#1A4F8A","Desarrollo":"#3C3489","Aprendizaje":"#085041","Talento":"#712B13","Cultura":"#72243E","Comunicación":"#92520A"};
 const estadoC={"En curso":"b-blue","Completado":"b-green","En riesgo":"b-red","Pausado":"b-gray","Pendiente":"b-amber","OK":"b-green","Riesgo":"b-amber","Crítico":"b-red"};
 const prioC={"Alta":"b-red","Media":"b-amber","Baja":"b-gray"};
 const STORAGE_KEY="talento_dashboard_v2";
@@ -233,48 +330,49 @@ const state={
 function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      const p=JSON.parse(raw);
-      state.proyectos=p.proyectos||state.proyectos;
-      state.kpis=p.kpis||state.kpis;
-      state.tareas=p.tareas||state.tareas;
-      nextId=p.nextId||nextId;
-    } else {
-      saveState();
-    }
+    if(raw){const p=JSON.parse(raw);state.proyectos=p.proyectos||state.proyectos;state.kpis=p.kpis||state.kpis;state.tareas=p.tareas||state.tareas;nextId=p.nextId||nextId;}
+    else{saveState();}
   }catch(e){console.warn(e);}
 }
-
 function saveState(){
   try{
     localStorage.setItem(STORAGE_KEY,JSON.stringify({proyectos:state.proyectos,kpis:state.kpis,tareas:state.tareas,nextId}));
-    const n=document.getElementById("save-notice");
-    n.classList.add("show");
-    setTimeout(()=>n.classList.remove("show"),1500);
+    const n=document.getElementById("save-notice");n.classList.add("show");setTimeout(()=>n.classList.remove("show"),1500);
   }catch(e){console.warn(e);}
 }
-
 function exportData(){
-  const data=JSON.stringify({proyectos:state.proyectos,kpis:state.kpis,tareas:state.tareas,nextId},null,2);
-  const blob=new Blob([data],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download="tablero-datos.json";a.click();
-  URL.revokeObjectURL(url);
+  const d=JSON.stringify({proyectos:state.proyectos,kpis:state.kpis,tareas:state.tareas,nextId},null,2);
+  const b=new Blob([d],{type:"application/json"});const u=URL.createObjectURL(b);
+  const a=document.createElement("a");a.href=u;a.download="tablero-datos.json";a.click();URL.revokeObjectURL(u);
 }
 
 function badge(t,map){return`<span class="badge ${(map&&map[t])||'b-gray'}">${t||'—'}</span>`}
-
-function progressBar(pct){
-  const c=pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
-  return`<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
-}
 
 function calcProgreso(nombre){
   const ts=state.tareas.filter(t=>t.proyecto===nombre);
   if(!ts.length)return null;
   const comp=ts.filter(t=>t.estado==="Completado").length;
   return{pct:Math.round((comp/ts.length)*100),total:ts.length,completadas:comp};
+}
+
+function getSemaforo(nombre){
+  const prog=calcProgreso(nombre);
+  if(!prog)return"gris";
+  if(prog.pct>60)return"verde";
+  if(prog.pct>=30)return"amarillo";
+  return"rojo";
+}
+
+function semaforoCell(nombre){
+  const s=getSemaforo(nombre);
+  const map={verde:{cls:"sem-verde",label:"Encaminado"},amarillo:{cls:"sem-amarillo",label:"En seguimiento"},rojo:{cls:"sem-rojo",label:"Requiere atención"},gris:{cls:"sem-gris",label:"Sin tareas"}};
+  const m=map[s];
+  return`<div class="sem-cell"><span class="sem-circle ${m.cls}"></span>${m.label}</div>`;
+}
+
+function progressBar(pct){
+  const c=pct>=80?"p-ok":pct>=50?"p-warn":"p-danger";
+  return`<div class="progress-wrap"><div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span class="progress-pct">${pct}%</span></div>`;
 }
 
 function formatDate(d){if(!d)return"—";const[y,m,day]=d.split("-");return`${day}/${m}/${y}`}
@@ -301,8 +399,8 @@ function vtoLabel(d){
 
 function noteIcon(nota,id){
   const hasNote=nota&&nota.trim().length>0;
-  const escaped=(nota||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
-  return`<button class="note-btn ${hasNote?'has-note':''}" onmouseenter="showTooltip(event,'${escaped}')" onmouseleave="hideTooltip()" onclick="editNota(${id})">
+  const esc=(nota||'').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+  return`<button class="note-btn ${hasNote?'has-note':''}" onmouseenter="showTooltip(event,'${esc}')" onmouseleave="hideTooltip()" onclick="editNota(${id})">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10v8H8l-5 2V3z"/></svg>
   </button>`;
 }
@@ -315,21 +413,113 @@ function showTooltip(e,text){
   tooltipEl.style.top=(e.clientY-8)+"px";
 }
 function hideTooltip(){tooltipEl.classList.remove("visible");}
-
 function editNota(id){
-  const item=state.proyectos.find(x=>x.id===id);
-  if(!item)return;
+  const item=state.proyectos.find(x=>x.id===id);if(!item)return;
   const nota=prompt("Nota para: "+item.nombre,item.nota||"");
-  if(nota===null)return;
-  item.nota=nota;saveState();renderAll();
+  if(nota===null)return;item.nota=nota;saveState();renderAll();
 }
 
+// ── VISTA EJECUTIVA ────────────────────────────────────
+function renderEjecutiva(){
+  const total=state.proyectos.length;
+  const activos=state.proyectos.filter(p=>p.estado==="En curso").length;
+  const completados=state.proyectos.filter(p=>p.estado==="Completado").length;
+  const tareasPend=state.tareas.filter(t=>t.estado==="Pendiente").length;
+  const tareasTotal=state.tareas.length;
+  const tareasComp=state.tareas.filter(t=>t.estado==="Completado").length;
+  const avanceGlobal=tareasTotal?Math.round((tareasComp/tareasTotal)*100):0;
+  const verdes=state.proyectos.filter(p=>getSemaforo(p.nombre)==="verde").length;
+  const rojos=state.proyectos.filter(p=>getSemaforo(p.nombre)==="rojo").length;
+
+  // Cards
+  document.getElementById("exec-cards").innerHTML=`
+    <div class="exec-card accent"><div class="exec-label">Total de proyectos</div><div class="exec-value">${total}</div><div class="exec-sub">${activos} activos · ${completados} completados</div></div>
+    <div class="exec-card"><div class="exec-label">Avance global</div><div class="exec-value">${avanceGlobal}%</div><div class="exec-sub">${tareasComp} de ${tareasTotal} tareas completadas</div></div>
+    <div class="exec-card"><div class="exec-label">Encaminados</div><div class="exec-value" style="color:var(--green)">${verdes}</div><div class="exec-sub">Proyectos con &gt;60% de avance</div></div>
+    <div class="exec-card"><div class="exec-label">Requieren atención</div><div class="exec-value" style="color:var(--red)">${rojos}</div><div class="exec-sub">Proyectos con &lt;30% de avance</div></div>`;
+
+  // Barras por vertical
+  const vertCount={};
+  VERTICALES.forEach(v=>vertCount[v]=0);
+  state.proyectos.forEach(p=>{if(p.vertical&&vertCount[p.vertical]!==undefined)vertCount[p.vertical]++;});
+  const maxV=Math.max(...Object.values(vertCount),1);
+  document.getElementById("exec-vertical-bars").innerHTML=VERTICALES.map(v=>`
+    <div class="vertical-bar-item">
+      <span class="vertical-bar-label">${v}</span>
+      <div class="vertical-bar-track"><div class="vertical-bar-fill" style="width:${Math.round((vertCount[v]/maxV)*100)}%;background:${VERTICAL_HEX[v]||'#888'}"></div></div>
+      <span class="vertical-bar-count">${vertCount[v]}</span>
+    </div>`).join("");
+
+  // Semáforo summary
+  const semCount={verde:0,amarillo:0,rojo:0,gris:0};
+  state.proyectos.forEach(p=>semCount[getSemaforo(p.nombre)]++);
+  const maxS=Math.max(...Object.values(semCount),1);
+  const semConfig=[
+    {key:"verde",label:"Encaminado",color:"#2D6A4F"},
+    {key:"amarillo",label:"En seguimiento",color:"#E09A20"},
+    {key:"rojo",label:"Requiere atención",color:"#A32D2D"},
+    {key:"gris",label:"Sin tareas",color:"#C0BDB8"}
+  ];
+  document.getElementById("exec-semaforo-bars").innerHTML=`<div class="vertical-bar-wrap">${semConfig.map(s=>`
+    <div class="vertical-bar-item">
+      <span class="vertical-bar-label">${s.label}</span>
+      <div class="vertical-bar-track"><div class="vertical-bar-fill" style="width:${Math.round((semCount[s.key]/maxS)*100)}%;background:${s.color}"></div></div>
+      <span class="vertical-bar-count">${semCount[s.key]}</span>
+    </div>`).join("")}</div>`;
+
+  // Atención
+  const attnList=state.proyectos.filter(p=>getSemaforo(p.nombre)==="rojo"||getSemaforo(p.nombre)==="amarillo")
+    .sort((a,b)=>{
+      const sa=getSemaforo(a.nombre),sb=getSemaforo(b.nombre);
+      if(sa==="rojo"&&sb!=="rojo")return -1;
+      if(sa!=="rojo"&&sb==="rojo")return 1;
+      return 0;
+    });
+  const attnEl=document.getElementById("exec-attn-list");
+  if(!attnList.length){attnEl.innerHTML=`<div style="font-size:13px;color:var(--text-3);margin-top:8px">Sin proyectos que requieran atención 🎉</div>`;
+  }else{
+    attnEl.innerHTML=attnList.map(p=>{
+      const s=getSemaforo(p.nombre);
+      const prog=calcProgreso(p.nombre);
+      const color=s==="rojo"?"#A32D2D":"#E09A20";
+      return`<div class="attn-item">
+        <div class="attn-dot" style="background:${color}"></div>
+        <span class="attn-name">${p.nombre}</span>
+        <span class="attn-resp">${p.resp||'—'}</span>
+        <span class="attn-pct">${prog?prog.pct+'%':'sin tareas'}</span>
+        ${badge(p.vertical,VERTICAL_COLORS)}
+      </div>`;
+    }).join("");
+  }
+
+  // Tabla resumen ejecutiva
+  const tbody=document.getElementById("tbody-ejecutiva");
+  tbody.innerHTML=state.proyectos.map(p=>{
+    const prog=calcProgreso(p.nombre);
+    const pct=prog?prog.pct:null;
+    const progCell=pct!==null?`${progressBar(pct)}`:`<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
+    const s=getSemaforo(p.nombre);
+    const semMap={verde:"sem-verde",amarillo:"sem-amarillo",rojo:"sem-rojo",gris:"sem-gris"};
+    return`<tr>
+      <td><span class="sem-circle ${semMap[s]}"></span></td>
+      <td style="font-weight:400">${p.nombre}</td>
+      <td>${badge(p.vertical,VERTICAL_COLORS)}</td>
+      <td style="color:var(--text-2)">${p.resp||'—'}</td>
+      <td style="min-width:140px">${progCell}</td>
+      <td>${vtoLabel(p.vto)}</td>
+      <td>${badge(p.estado,estadoC)}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ── FILTROS PROYECTOS ──────────────────────────────────
 function getFiltersP(){
   return{
     vertical:document.getElementById("f-vertical").value,
     estado:document.getElementById("f-estado").value,
     responsable:document.getElementById("f-responsable").value,
-    vto:document.getElementById("f-vto").value
+    vto:document.getElementById("f-vto").value,
+    semaforo:document.getElementById("f-semaforo").value
   };
 }
 function applyFiltersP(){
@@ -339,6 +529,7 @@ function applyFiltersP(){
     if(f.estado&&p.estado!==f.estado)return false;
     if(f.responsable&&p.resp!==f.responsable)return false;
     if(f.vto&&getVtoCategory(p.vto)!==f.vto)return false;
+    if(f.semaforo&&getSemaforo(p.nombre)!==f.semaforo)return false;
     return true;
   });
   renderProyectosData(filtered);
@@ -346,24 +537,17 @@ function applyFiltersP(){
   fc.textContent=filtered.length<state.proyectos.length?`Mostrando ${filtered.length} de ${state.proyectos.length}`:"";
 }
 function resetFiltersP(){
-  ["f-vertical","f-estado","f-responsable","f-vto"].forEach(id=>document.getElementById(id).value="");
+  ["f-vertical","f-estado","f-responsable","f-vto","f-semaforo"].forEach(id=>document.getElementById(id).value="");
   applyFiltersP();
 }
 function updateResponsableFilter(){
-  const sel=document.getElementById("f-responsable");
-  const cur=sel.value;
+  const sel=document.getElementById("f-responsable");const cur=sel.value;
   const resps=[...new Set(state.proyectos.map(p=>p.resp).filter(Boolean))].sort();
   sel.innerHTML=`<option value="">Todos los responsables</option>`+resps.map(r=>`<option ${r===cur?"selected":""}>${r}</option>`).join("");
 }
 
-function getFiltersT(){
-  return{
-    proyecto:document.getElementById("ft-proyecto").value,
-    responsable:document.getElementById("ft-responsable").value,
-    estado:document.getElementById("ft-estado").value,
-    prioridad:document.getElementById("ft-prioridad").value
-  };
-}
+// ── FILTROS TAREAS ─────────────────────────────────────
+function getFiltersT(){return{proyecto:document.getElementById("ft-proyecto").value,responsable:document.getElementById("ft-responsable").value,estado:document.getElementById("ft-estado").value,prioridad:document.getElementById("ft-prioridad").value};}
 function applyFiltersT(){
   const f=getFiltersT();
   let filtered=state.tareas.filter(t=>{
@@ -378,8 +562,7 @@ function applyFiltersT(){
   fc.textContent=filtered.length<state.tareas.length?`Mostrando ${filtered.length} de ${state.tareas.length}`:"";
 }
 function resetFiltersT(){
-  ["ft-proyecto","ft-responsable","ft-estado","ft-prioridad"].forEach(id=>document.getElementById(id).value="");
-  applyFiltersT();
+  ["ft-proyecto","ft-responsable","ft-estado","ft-prioridad"].forEach(id=>document.getElementById(id).value="");applyFiltersT();
 }
 function updateTareaFilters(){
   const sp=document.getElementById("ft-proyecto"),sr=document.getElementById("ft-responsable");
@@ -390,15 +573,17 @@ function updateTareaFilters(){
   sr.innerHTML=`<option value="">Todos los responsables</option>`+resps.map(r=>`<option ${r===cr?"selected":""}>${r}</option>`).join("");
 }
 
+// ── RENDER ─────────────────────────────────────────────
 function renderProyectosData(list){
   const tb=document.getElementById("tbody-proyectos");
-  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="8">${state.proyectos.length?'No hay proyectos que coincidan':'No hay proyectos cargados aún'}</td></tr>`;return;}
+  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="9">${state.proyectos.length?'Sin coincidencias':'Sin proyectos'}</td></tr>`;return;}
+  const semMap={verde:"sem-verde",amarillo:"sem-amarillo",rojo:"sem-rojo",gris:"sem-gris"};
   tb.innerHTML=list.map(p=>{
     const prog=calcProgreso(p.nombre);
-    const progCell=prog!==null
-      ?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total}</span></div>`
-      :`<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
+    const progCell=prog!==null?`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${progressBar(prog.pct)}<span class="task-count">${prog.completadas}/${prog.total}</span></div>`:`<span style="font-size:11px;color:var(--text-3)">Sin tareas</span>`;
+    const s=getSemaforo(p.nombre);
     return`<tr>
+      <td><span class="sem-circle ${semMap[s]}"></span></td>
       <td style="font-weight:400">${p.nombre}</td>
       <td>${badge(p.vertical,VERTICAL_COLORS)}</td>
       <td style="color:var(--text-2)">${p.resp||'—'}</td>
@@ -414,7 +599,7 @@ function renderProyectos(){updateResponsableFilter();applyFiltersP();}
 
 function renderKPIs(){
   const body=document.getElementById("kpi-body");
-  if(!state.kpis.length){body.innerHTML=`<div class="kpi-empty">No hay KPIs cargados aún.</div>`;return;}
+  if(!state.kpis.length){body.innerHTML=`<div class="kpi-empty">Sin KPIs cargados.</div>`;return;}
   const groups={};
   state.kpis.forEach(k=>{const key=k.proyecto||"__sin__";if(!groups[key])groups[key]=[];groups[key].push(k);});
   let html="";
@@ -422,41 +607,25 @@ function renderKPIs(){
     const items=groups[key];
     const proj=key==="__sin__"?null:state.proyectos.find(p=>p.nombre===key);
     const vColor=proj?(VERTICAL_COLORS[proj.vertical]||"b-gray"):"";
-    const titleHtml=key==="__sin__"
-      ?`<span style="font-style:italic;color:var(--text-3)">Sin proyecto asignado</span>`
-      :`${key}${proj?` <span class="badge ${vColor}" style="font-size:10px">${proj.vertical}</span>`:''}`;
-    html+=`<div class="kpi-project-block">
-      <div class="kpi-project-title">${titleHtml}</div>
+    const titleHtml=key==="__sin__"?`<span style="font-style:italic;color:var(--text-3)">Sin proyecto</span>`:`${key}${proj?` <span class="badge ${vColor}" style="font-size:10px">${proj.vertical}</span>`:''}`;
+    html+=`<div class="kpi-project-block"><div class="kpi-project-title">${titleHtml}</div>
       <table><thead><tr><th>Indicador</th><th>Meta</th><th>Actual</th><th>Período</th><th>Estado</th><th></th></tr></thead>
       <tbody>${items.map(k=>{
         const pct=k.meta?Math.min(Math.round((k.actual/k.meta)*100),100):0;
         const c=pct>=100?"p-ok":pct>=85?"p-warn":"p-danger";
-        return`<tr>
-          <td>${k.indicador||'—'}</td>
-          <td style="font-family:'DM Mono',monospace">${k.meta}</td>
+        return`<tr><td>${k.indicador||'—'}</td><td style="font-family:'DM Mono',monospace">${k.meta}</td>
           <td><div style="display:flex;align-items:center;gap:8px"><span style="font-family:'DM Mono',monospace;font-weight:500">${k.actual}</span><div class="progress-track" style="width:60px"><div class="progress-fill ${c}" style="width:${pct}%"></div></div><span style="font-size:10px;color:var(--text-3)">${pct}%</span></div></td>
-          <td style="color:var(--text-3);font-size:12px">${k.periodo||'—'}</td>
-          <td>${badge(k.estado,estadoC)}</td>
-          <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td>
-        </tr>`;
-      }).join("")}</tbody></table>
-    </div>`;
+          <td style="color:var(--text-3);font-size:12px">${k.periodo||'—'}</td><td>${badge(k.estado,estadoC)}</td>
+          <td><button class="edit-btn" onclick="editRow('kpis',${k.id})">editar</button></td></tr>`;
+      }).join("")}</tbody></table></div>`;
   });
   body.innerHTML=html;
 }
 
 function renderTareasData(list){
   const tb=document.getElementById("tbody-tareas");
-  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="6">${state.tareas.length?'No hay tareas que coincidan':'No hay tareas cargadas aún'}</td></tr>`;return;}
-  tb.innerHTML=list.map(t=>`
-    <tr>
-      <td>${t.tarea||'—'}</td>
-      <td style="color:var(--text-2)">${t.asignado||'—'}</td>
-      <td>${badge(t.prioridad,prioC)}</td>
-      <td style="color:var(--text-3);font-size:12px">${t.proyecto||'—'}</td>
-      <td>${badge(t.estado,estadoC)}</td>
-      <td><button class="edit-btn" onclick="editRow('tareas',${t.id})">editar</button></td>
-    </tr>`).join("");
+  if(!list.length){tb.innerHTML=`<tr class="empty-row"><td colspan="6">${state.tareas.length?'Sin coincidencias':'Sin tareas'}</td></tr>`;return;}
+  tb.innerHTML=list.map(t=>`<tr><td>${t.tarea||'—'}</td><td style="color:var(--text-2)">${t.asignado||'—'}</td><td>${badge(t.prioridad,prioC)}</td><td style="color:var(--text-3);font-size:12px">${t.proyecto||'—'}</td><td>${badge(t.estado,estadoC)}</td><td><button class="edit-btn" onclick="editRow('tareas',${t.id})">editar</button></td></tr>`).join("");
 }
 function renderTareas(){updateTareaFilters();applyFiltersT();}
 
@@ -466,90 +635,63 @@ function renderMetrics(){
   const total=state.proyectos.length;
   const tareasPend=state.tareas.filter(t=>t.estado==="Pendiente").length;
   const kpiOk=state.kpis.filter(k=>k.estado==="OK").length;
-  const kpiTotal=state.kpis.length;
   document.getElementById("metrics-grid").innerHTML=`
     <div class="metric"><div class="metric-label">Proyectos activos</div><div class="metric-value">${activos}</div><div class="metric-sub"><span class="metric-dot" style="background:var(--red)"></span>${riesgo} en riesgo · ${total} total</div></div>
-    <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${kpiTotal}</span></div><div class="metric-sub">Indicadores del período</div></div>
+    <div class="metric"><div class="metric-label">KPIs en meta</div><div class="metric-value">${kpiOk}<span style="font-size:16px;font-weight:400;color:var(--text-3)">/${state.kpis.length}</span></div><div class="metric-sub">Indicadores del período</div></div>
     <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-value">${tareasPend}</div><div class="metric-sub">De ${state.tareas.length} tareas totales</div></div>`;
 }
 
-function renderAll(){renderMetrics();renderProyectos();renderKPIs();renderTareas();}
+function renderAll(){renderMetrics();renderProyectos();renderKPIs();renderTareas();renderEjecutiva();}
 
 function showTab(name){
-  ["proyectos","kpis","tareas"].forEach(t=>document.getElementById("tab-"+t).style.display=t===name?"block":"none");
+  ["ejecutiva","proyectos","kpis","tareas"].forEach(t=>document.getElementById("tab-"+t).style.display=t===name?"block":"none");
 }
-function setActive(el){
-  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
-  el.classList.add("active");
-}
+function setActive(el){document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));el.classList.add("active");}
 
 function proyectosOptions(selected){
   return`<option value="">-- Sin proyecto --</option>`+state.proyectos.map(p=>`<option value="${p.nombre}" ${p.nombre===selected?"selected":""}>${p.nombre}</option>`).join("");
 }
 
 function editRow(type,id){
-  const item=state[type].find(x=>x.id===id);
-  if(!item)return;
-  let form="",cols=7;
+  const item=state[type].find(x=>x.id===id);if(!item)return;
+  let form="",cols=8;
   if(type==="proyectos"){
     const vOpts=VERTICALES.map(v=>`<option ${item.vertical===v?"selected":""}>${v}</option>`).join("");
     form=`<input type="text" id="ef-nombre" value="${(item.nombre||'').replace(/"/g,'&quot;')}" style="min-width:140px" placeholder="Nombre">
     <select id="ef-vertical"><option value="">— Vertical —</option>${vOpts}</select>
-    <select id="ef-estado">
-      <option ${item.estado==="En curso"?"selected":""}>En curso</option>
-      <option ${item.estado==="Completado"?"selected":""}>Completado</option>
-      <option ${item.estado==="En riesgo"?"selected":""}>En riesgo</option>
-      <option ${item.estado==="Pausado"?"selected":""}>Pausado</option>
-    </select>
+    <select id="ef-estado"><option ${item.estado==="En curso"?"selected":""}>En curso</option><option ${item.estado==="Completado"?"selected":""}>Completado</option><option ${item.estado==="En riesgo"?"selected":""}>En riesgo</option><option ${item.estado==="Pausado"?"selected":""}>Pausado</option></select>
     <input type="text" id="ef-resp" value="${(item.resp||'').replace(/"/g,'&quot;')}" style="width:100px" placeholder="Responsable">
     <input type="text" id="ef-vto" value="${item.vto||''}" style="width:110px" placeholder="YYYY-MM-DD">
     <textarea id="ef-nota" placeholder="Nota">${item.nota||''}</textarea>`;
   } else if(type==="kpis"){
     cols=5;
-    form=`<input type="text" id="ef-indicador" value="${(item.indicador||'').replace(/"/g,'&quot;')}" style="width:160px" placeholder="Indicador">
+    form=`<input type="text" id="ef-indicador" value="${(item.indicador||'').replace(/"/g,'&quot;')}" style="width:160px">
     <select id="ef-proyecto-kpi">${proyectosOptions(item.proyecto)}</select>
-    <input type="number" id="ef-meta" value="${item.meta||''}" style="width:65px" placeholder="Meta">
-    <input type="number" id="ef-actual" value="${item.actual||''}" style="width:65px" placeholder="Actual">
+    <input type="number" id="ef-meta" value="${item.meta||''}" style="width:65px">
+    <input type="number" id="ef-actual" value="${item.actual||''}" style="width:65px">
     <input type="text" id="ef-periodo" value="${item.periodo||''}" style="width:90px" placeholder="Período">`;
   } else if(type==="tareas"){
     cols=5;
-    form=`<input type="text" id="ef-tarea" value="${(item.tarea||'').replace(/"/g,'&quot;')}" style="min-width:140px" placeholder="Tarea">
-    <input type="text" id="ef-asignado" value="${(item.asignado||'').replace(/"/g,'&quot;')}" style="width:100px" placeholder="Asignado a">
+    form=`<input type="text" id="ef-tarea" value="${(item.tarea||'').replace(/"/g,'&quot;')}" style="min-width:140px">
+    <input type="text" id="ef-asignado" value="${(item.asignado||'').replace(/"/g,'&quot;')}" style="width:100px">
     <select id="ef-proyecto">${proyectosOptions(item.proyecto)}</select>
-    <select id="ef-estado">
-      <option ${item.estado==="Pendiente"?"selected":""}>Pendiente</option>
-      <option ${item.estado==="En curso"?"selected":""}>En curso</option>
-      <option ${item.estado==="Completado"?"selected":""}>Completado</option>
-    </select>
-    <select id="ef-prio">
-      <option ${item.prioridad==="Alta"?"selected":""}>Alta</option>
-      <option ${item.prioridad==="Media"?"selected":""}>Media</option>
-      <option ${item.prioridad==="Baja"?"selected":""}>Baja</option>
-    </select>`;
+    <select id="ef-estado"><option ${item.estado==="Pendiente"?"selected":""}>Pendiente</option><option ${item.estado==="En curso"?"selected":""}>En curso</option><option ${item.estado==="Completado"?"selected":""}>Completado</option></select>
+    <select id="ef-prio"><option ${item.prioridad==="Alta"?"selected":""}>Alta</option><option ${item.prioridad==="Media"?"selected":""}>Media</option><option ${item.prioridad==="Baja"?"selected":""}>Baja</option></select>`;
   }
-
   if(type==="kpis"){
-    const allBtns=document.querySelectorAll("#kpi-body .edit-btn");
-    let targetRow=null;
+    const allBtns=document.querySelectorAll("#kpi-body .edit-btn");let targetRow=null;
     allBtns.forEach(btn=>{if(btn.getAttribute("onclick")===`editRow('kpis',${id})`)targetRow=btn.closest("tr");});
-    if(targetRow)targetRow.innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
-      <button class="save-btn" onclick="saveRow('kpis',${id})">Guardar</button>
-      <button class="del-btn" onclick="deleteRow('kpis',${id})">Eliminar</button>
-    </div></td><td></td>`;
+    if(targetRow)targetRow.innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}<button class="save-btn" onclick="saveRow('kpis',${id})">Guardar</button><button class="del-btn" onclick="deleteRow('kpis',${id})">Eliminar</button></div></td><td></td>`;
     return;
   }
   const tbody=document.getElementById("tbody-"+type);
   const idx=state[type].findIndex(x=>x.id===id);
   const rows=tbody.querySelectorAll("tr");
-  if(rows[idx])rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}
-    <button class="save-btn" onclick="saveRow('${type}',${id})">Guardar</button>
-    <button class="del-btn" onclick="deleteRow('${type}',${id})">Eliminar</button>
-  </div></td><td></td>`;
+  if(rows[idx])rows[idx].innerHTML=`<td colspan="${cols}"><div class="edit-cell">${form}<button class="save-btn" onclick="saveRow('${type}',${id})">Guardar</button><button class="del-btn" onclick="deleteRow('${type}',${id})">Eliminar</button></div></td><td></td>`;
 }
 
 function saveRow(type,id){
-  const item=state[type].find(x=>x.id===id);
-  if(!item)return;
+  const item=state[type].find(x=>x.id===id);if(!item)return;
   if(type==="proyectos"){
     const old=item.nombre;
     item.nombre=document.getElementById("ef-nombre").value||item.nombre;
@@ -558,10 +700,7 @@ function saveRow(type,id){
     item.estado=document.getElementById("ef-estado").value;
     item.vto=document.getElementById("ef-vto").value;
     item.nota=document.getElementById("ef-nota").value;
-    if(old!==item.nombre){
-      state.tareas.forEach(t=>{if(t.proyecto===old)t.proyecto=item.nombre;});
-      state.kpis.forEach(k=>{if(k.proyecto===old)k.proyecto=item.nombre;});
-    }
+    if(old!==item.nombre){state.tareas.forEach(t=>{if(t.proyecto===old)t.proyecto=item.nombre;});state.kpis.forEach(k=>{if(k.proyecto===old)k.proyecto=item.nombre;});}
   } else if(type==="kpis"){
     item.indicador=document.getElementById("ef-indicador").value||item.indicador;
     item.proyecto=document.getElementById("ef-proyecto-kpi").value;
@@ -579,28 +718,19 @@ function saveRow(type,id){
   saveState();renderAll();
 }
 
-function deleteRow(type,id){
-  state[type]=state[type].filter(x=>x.id!==id);
-  saveState();renderAll();
-}
+function deleteRow(type,id){state[type]=state[type].filter(x=>x.id!==id);saveState();renderAll();}
 
 function addRow(type){
   const id=nextId++;
   if(type==="proyectos")state.proyectos.push({id,nombre:"",vertical:"",resp:"",estado:"En curso",vto:"",nota:""});
   else if(type==="kpis")state.kpis.push({id,indicador:"",proyecto:"",meta:100,actual:0,periodo:"",estado:"Riesgo"});
   else if(type==="tareas")state.tareas.push({id,tarea:"",asignado:"",prioridad:"Media",proyecto:"",estado:"Pendiente"});
-  saveState();renderAll();
-  setTimeout(()=>editRow(type,id),80);
+  saveState();renderAll();setTimeout(()=>editRow(type,id),80);
 }
 
-function updateClock(){
-  document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
-}
+function updateClock(){document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});}
 
-loadState();
-renderAll();
-updateClock();
-setInterval(updateClock,30000);
+loadState();renderAll();updateClock();setInterval(updateClock,30000);
 </script>
 </body>
 </html>
